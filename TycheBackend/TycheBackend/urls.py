@@ -37,7 +37,7 @@ schema_view = get_schema_view(
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('Account/',views.Account.as_view()),
-    path('Account/<int:pk>',views.Account.as_view()),
+    path('Account/<str:pk>',views.Account.as_view()),
     path('collection/',views.collectionView.as_view()),
     path('collection/<int:pk>',views.collectionView.as_view()),
     path('WorkArt/',views.WorkArt.as_view()),

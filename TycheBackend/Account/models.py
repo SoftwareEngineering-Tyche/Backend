@@ -39,6 +39,7 @@ class account(models.Model):
     avatar=models.ImageField(_("Image"),upload_to=upload_to, null=True, blank=True)
     banner=models.ImageField(_("Image"),upload_to=upload_to, null=True, blank=True)
     socials=models.URLField(null=True, blank=True)
+    email=models.EmailField(null=True, blank=True)
     favorite=models.ManyToManyField(WorkArt,related_name='favorites', verbose_name=_('members'),null=True,blank=True)
     collection=models.ManyToManyField(collection,verbose_name=_('members'),related_name='collections',null=True, blank=True)
     WalletInfo=models.CharField(max_length=500, primary_key=True)

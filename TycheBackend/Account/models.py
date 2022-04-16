@@ -13,35 +13,35 @@ def upload_to(instance, filename):
 
 # Create your models here.
 class WorkArt(models.Model):
-    account=models.ForeignKey(account, ondelete=models.CASCADE)
-    Name=models.CharField(max_length=100)
+    #account=models.ForeignKey(account, ondelete=models.CASCADE)
+    Name=models.CharField(max_length=100,null=True,blank=True)
     image=models.ImageField(_("Image"),upload_to=upload_to, null=True, blank=True)
-    Externallink=models.URLField()
-    Description=models.CharField(max_length=200)
-    Supply=models.IntegerField()
-    BlockChain=models.CharField(max_length=5)
+    Externallink=models.URLField(null=True,blank=True)
+    Description=models.CharField(max_length=200,null=True,blank=True)
+    Supply=models.IntegerField(null=True,blank=True)
+    #BlockChain=models.CharField(max_length=5,null=True,blank=True)
     
-class Collection(models.Model):
-    Logoimage=models.ImageField()
-    Featuredimage=models.ImageField()
-    Bannerimage=models.ImageField()
-    Name=models.CharField(max_length=200)
-    URL=models.CharField(max_length=200)
-    Description=models.CharField(max_length=900)
-    category=models.CharField(max_length=200)
-    DisplayTheme=models.CharField(max_length=200)
+class collection(models.Model):
+    Logoimage=models.ImageField(_("Image"),upload_to=upload_to, null=True, blank=True)
+    Featuredimage=models.ImageField(_("Image"),upload_to=upload_to, null=True, blank=True)
+    Bannerimage=models.ImageField(_("Image"),upload_to=upload_to, null=True, blank=True)
+    Name=models.CharField(max_length=200,null=True,blank=True)
+    URL=models.CharField(max_length=200,null=True,blank=True)
+    Description=models.CharField(max_length=900,null=True,blank=True)
+    category=models.CharField(max_length=200,null=True,blank=True)
+    DisplayTheme=models.CharField(max_length=200,null=True,blank=True)
+    WorkArts=models.ManyToManyField(WorkArt,related_name='collections', verbose_name=_('WorkArts'),null=True,blank=True)
 
 
 class account(models.Model):
-    username=models.CharField(max_length=100,null=False)
-    bio=models.CharField(max_length=500,null=False)
+    username=models.CharField(max_length=100,null=True,blank=True)
+    bio=models.CharField(max_length=500,null=True,blank=True)
     avatar=models.ImageField(_("Image"),upload_to=upload_to, null=True, blank=True)
     banner=models.ImageField(_("Image"),upload_to=upload_to, null=True, blank=True)
     socials=models.URLField(null=True, blank=True)
-    created=models.DateTimeField(auto_now_add=True,null=True, blank=True)
-    favorite=models.ManyToManyField(WorkArt,related_name='favorites', verbose_name=_('members'))
-    collection=models.ManyToManyField(Collection,verbose_name=_('members'),related_name='collections')
-    WalletInfo=models.CharField(max_length=500,null=True, blank=True)
+    favorite=models.ManyToManyField(WorkArt,related_name='favorites', verbose_name=_('members'),null=True,blank=True)
+    collection=models.ManyToManyField(collection,verbose_name=_('members'),related_name='collections',null=True, blank=True)
+    WalletInfo=models.CharField(max_length=500, primary_key=True)
     
     
 #class WalletInfo(models.Model):

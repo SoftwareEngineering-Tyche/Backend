@@ -17,6 +17,7 @@ class Account(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_201_CREATED)
     def put(self,request):
+        parser_classes=[MultiPartParser, FormParser]
         try:
             query=account.objects.get(WalletInfo=request.data.get('WalletInfo'))
         except:
@@ -45,6 +46,7 @@ class collectionView(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     def put(self,request,pk):
+        parser_classes=[MultiPartParser, FormParser]
         try:
             query=collection.objects.get(id=pk)
         except:
@@ -67,6 +69,7 @@ class WorkArt(APIView):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     def put(self,request,pk):
+        parser_classes=[MultiPartParser, FormParser]
         try:
             query=WorkArt.objects.get(id=pk)
         except:

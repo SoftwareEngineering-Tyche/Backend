@@ -15,7 +15,7 @@ def upload_to(instance, filename):
 class WorkArt(models.Model):
     #account=models.ForeignKey(account, ondelete=models.CASCADE)
     Name=models.CharField(max_length=100,null=True,blank=True)
-    image=models.ImageField(_("Image"),upload_to=upload_to, null=True, blank=True)
+    image=models.ImageField(upload_to=upload_to, null=True, blank=True)
     Externallink=models.URLField(null=True,blank=True)
     Description=models.CharField(max_length=200,null=True,blank=True)
     Supply=models.IntegerField(null=True,blank=True)
@@ -36,8 +36,8 @@ class collection(models.Model):
 class account(models.Model):
     username=models.CharField(max_length=100,null=True,blank=True)
     bio=models.CharField(max_length=500,null=True,blank=True)
-    avatar=models.ImageField(_("Image"),upload_to=upload_to, null=True, blank=True)
-    banner=models.ImageField(_("Image"),upload_to=upload_to, null=True, blank=True)
+    avatar=models.ImageField(upload_to=upload_to, null=True, blank=True)
+    banner=models.ImageField(upload_to=upload_to, null=True, blank=True)
     socials=models.URLField(null=True, blank=True)
     email=models.EmailField(null=True, blank=True)
     favorite=models.ManyToManyField(WorkArt,related_name='favorites', verbose_name=_('members'),null=True,blank=True)

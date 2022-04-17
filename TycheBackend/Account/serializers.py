@@ -12,4 +12,4 @@ class CollectionSerializer(serializers.ModelSerializer):
 class WorkArtSerializer(serializers.ModelSerializer):
     class Meta:
         model=WorkArt
-        fields = ['Name','image','Externallink','Description','Supply','Description','BlockChain']
+        fields = ['Name','image','Externallink','Description','Supply','Description']

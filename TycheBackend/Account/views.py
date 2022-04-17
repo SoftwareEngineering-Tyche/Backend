@@ -16,9 +16,9 @@ class Account(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_201_CREATED)
-    def put(self,request,pk):
+    def put(self,request):
         try:
-            query=account.objects.get(WalletInfo=pk)
+            query=account.objects.get(WalletInfo=request.data.get('WalletInfo'))
         except:
             return Response("Error",status.HTTP_400_BAD_REQUEST)
         serializer=AccountSerializer(query,data=request.data)

@@ -4,7 +4,7 @@ from .models import account, collection, WorkArt
 class AccountSerializer(serializers.ModelSerializer):
     class Meta:
         model = account
-        fields = ['username','bio','avatar','banner','socials','favorite','collection','WalletInfo']
+        fields = ['username','bio','avatar','banner','socials','email','favorite','collection','WalletInfo']
 class CollectionSerializer(serializers.ModelSerializer):
     class Meta:
         model=collection

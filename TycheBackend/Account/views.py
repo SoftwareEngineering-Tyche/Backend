@@ -11,20 +11,20 @@ from rest_framework.parsers import MultiPartParser,FormParser
 class Account(APIView):
     def post(self,request):
         parser_classes=[MultiPartParser, FormParser]
-        serializer=AccountSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        #query=Account()
-        #query.WalletInfo=request.data['WalletInfo']
-        #query.username=request.data['username']
-        #query.avatar=request.data['avatar']
-        #query.WalletInfo=request.data['WalletInfo']
-        #query.banner=request.data['banner']
-        #query.bio=request.data['bio']
+        #serializer=AccountSerializer(data=request.data)
+        #if serializer.is_valid():
+        #    serializer.save()
+        #    return Response(serializer.data, status=status.HTTP_201_CREATED)
+        query=Account()
+        query.WalletInfo=request.data['WalletInfo']
+        query.username=request.data['username']
+        query.avatar=request.data['avatar']
+        query.WalletInfo=request.data['WalletInfo']
+        query.banner=request.data['banner']
+        query.bio=request.data['bio']
         
-        #query.email=request.data['email']
-        #query.save()
+        query.email=request.data['email']
+        query.save()
         return Response(request.data, status=status.HTTP_201_CREATED)
     def put(self,request,format=None):
         parser_classes=(MultiPartParser, FormParser)
@@ -32,17 +32,17 @@ class Account(APIView):
             query=account.objects.get(WalletInfo=request.data.get('WalletInfo'))
         except:
             return Response("Error",status.HTTP_200_OK)
-        serializer=AccountSerializer(data=request.data)
-        if serializer.is_valid():
-             serializer.save()
-             return Response(serializer.data,status.HTTP_200_OK)
-        #query.username=request.data['username']
-        #query.avatar=request.data['avatar']
-        #query.WalletInfo=request.data['WalletInfo']
-        #query.banner=request.data['banner']
-        #query.bio=request.data['bio']
-        #query.email=request.data['email']
-        #query.save()
+        #serializer=AccountSerializer(data=request.data)
+        #if serializer.is_valid():
+        #     serializer.save()
+        #     return Response(serializer.data,status.HTTP_200_OK)
+        query.username=request.data['username']
+        query.avatar=request.data['avatar']
+        query.WalletInfo=request.data['WalletInfo']
+        query.banner=request.data['banner']
+        query.bio=request.data['bio']
+        query.email=request.data['email']
+        query.save()
         return Response(request.data,status.HTTP_200_OK)
     def get(self,request,pk):
         query=account.objects.get(WalletInfo=pk)

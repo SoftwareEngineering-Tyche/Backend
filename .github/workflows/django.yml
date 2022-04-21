@@ -27,4 +27,4 @@ jobs:
         pip install -r TycheBackend/requirements.txt
     - name: Run Tests
       run: |
-        python manage.py test
+        python TycheBackend/manage.py test

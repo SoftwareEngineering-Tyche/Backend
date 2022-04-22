@@ -17,7 +17,7 @@ class AccountTestCase(APITestCase):
                 'banner':'', 
                 'bio':'dfsfs',
                 'email':'dfsdfs@sdfsd.com'}
-        response = self.client.post(url, data,'multipart')
+        response = self.client.post(url, data,'json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(response.data.get('username'), data.get('username'))
         self.assertEqual(response.data.get('WalletInfo'), data.get('WalletInfo'))

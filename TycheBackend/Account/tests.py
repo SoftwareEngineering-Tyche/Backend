@@ -12,8 +12,12 @@ class AccountTestCase(APITestCase):
         #account.objects.create('Accfdsfnt','fdsfsdf',null=True,null=True,null=True,null=True,null=True,null=True,'sdfsfscsdjkv')
         url = 'http://127.0.0.1:8000/Account/'
         data = {'WalletInfo': 'hasan.sabour.iust@gmail.com',
-                'username':'hasan'}
-        response = self.client.post(url, data)
+                'username':'hasan',
+                'avatar':'',
+                'banner':'', 
+                'bio':'dfsfs',
+                'email':'dfsdfs@sdfsd.com'}
+        response = self.client.post(url, data,'multipart')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(response.data.get('username'), data.get('username'))
         self.assertEqual(response.data.get('WalletInfo'), data.get('WalletInfo'))

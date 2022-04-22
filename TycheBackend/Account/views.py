@@ -15,14 +15,13 @@ class Account(APIView):
         #if serializer.is_valid():
         #    serializer.save()
         #    return Response(serializer.data, status=status.HTTP_201_CREATED)
-        query=Account()
+        query=account()
         query.WalletInfo=request.data['WalletInfo']
         query.username=request.data['username']
         query.avatar=request.data['avatar']
         query.WalletInfo=request.data['WalletInfo']
         query.banner=request.data['banner']
         query.bio=request.data['bio']
-        
         query.email=request.data['email']
         query.save()
         return Response(request.data, status=status.HTTP_201_CREATED)

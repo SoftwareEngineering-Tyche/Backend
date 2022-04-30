@@ -5,10 +5,14 @@ from django.conf import settings
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from datetime import datetime
-
+import os
 
 def upload_to(instance, filename):
-    return 'posts/{filename}'.format(filename=filename)
+    now = timezone.now()
+    base, extension = os.path.splitext(filename.lower())
+    milliseconds = now.microsecond // 1000
+    return f"users/{instance.pk}/{now:%Y%m%d%H%M%S}{milliseconds}{extension}"
+
 
 
 # Create your models here.
@@ -37,8 +41,8 @@ class collection(models.Model):
 class account(models.Model):
     username=models.CharField(max_length=100,null=True,blank=True)
     bio=models.CharField(max_length=500,null=True,blank=True)
-    avatar=models.ImageField(upload_to=upload_to, null=True, blank=True)
-    banner=models.ImageField(upload_to=upload_to, null=True, blank=True)
+    avatar=models.ImageField(_("Avatar"),upload_to=upload_to, null=True, blank=True)
+    banner=models.ImageField(_("Banner"),upload_to=upload_to, null=True, blank=True)
     socials=models.URLField(null=True, blank=True)
     email=models.EmailField(null=True, blank=True)
     favorite=models.ManyToManyField(WorkArt,related_name='favorites', verbose_name=_('members'),null=True,blank=True)

@@ -8,8 +8,8 @@ class AccountSerializer(serializers.ModelSerializer):
 class CollectionSerializer(serializers.ModelSerializer):
     class Meta:
         model=collection
-        fields = ['logoimage','featuredimage','bannerimage','Name','URL','Description','category','DisplayTheme','WorkArts']
+        fields = ['id','logoimage','featuredimage','bannerimage','Name','URL','Description','category','DisplayTheme','WorkArts']
 class WorkArtSerializer(serializers.ModelSerializer):
     class Meta:
         model=WorkArt
-        fields = ['Name','image','Externallink','Description','Supply','Description','BlockChain']
+        fields = ['id','Name','image','Externallink','Description','Supply','Description','BlockChain']

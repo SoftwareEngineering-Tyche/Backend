@@ -48,7 +48,7 @@ class collectionView(APIView):
     def put(self,request,format=None):
         parser_classes=[MultiPartParser, FormParser]
         try:
-            query=collection.objects.get(Name=request.data.get('Name'))
+            query=collection.objects.get(Name=request.data.get('id'))
         except:
             return Response("Error",status.HTTP_400_BAD_REQUEST)
         serializer=CollectionSerializer(query,data=request.data)
@@ -76,7 +76,7 @@ class WorkArt(APIView):
     def put(self,request,pk):
         parser_classes=[MultiPartParser, FormParser]
         try:
-            query=WorkArt.objects.get(id=pk)
+            query=WorkArt.objects.get(Name=request.data.get('id'))
         except:
             return Response("Error",status.HTTP_400_BAD_REQUEST)
         serializer=WorkArtSerializer(query,data=request.data)

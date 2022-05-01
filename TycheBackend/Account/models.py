@@ -17,20 +17,19 @@ def upload_to(instance, filename):
 
 # Create your models here.
 class WorkArt(models.Model):
-    #account=models.ForeignKey(account, ondelete=models.CASCADE)
+    #account=models.ManyToManyField(account,related_name='accounts', verbose_name=_('WorkArts'),null=True,blank=True)
     Name=models.CharField(max_length=100,null=True,blank=True)
-    image=models.ImageField(upload_to=upload_to, null=True, blank=True)
+    image=models.ImageField(_("Image"),upload_to=upload_to, null=True, blank=True)
     Externallink=models.URLField(null=True,blank=True)
     Description=models.CharField(max_length=200,null=True,blank=True)
     Supply=models.IntegerField(null=True,blank=True)
     Liked=models.IntegerField(null=True,blank=True)
-    
-    #BlockChain=models.CharField(max_length=5,null=True,blank=True)
+    BlockChain=models.CharField(max_length=5,null=True,blank=True)
     
 class collection(models.Model):
-    Logoimage=models.ImageField(upload_to=upload_to, null=True, blank=True)
-    Featuredimage=models.ImageField(upload_to=upload_to, null=True, blank=True)
-    Bannerimage=models.ImageField(upload_to=upload_to, null=True, blank=True)
+    logoimage=models.ImageField(_("Logoimage"),upload_to=upload_to, null=True, blank=True)
+    featuredimage=models.ImageField(_("Featuredimage"),upload_to=upload_to, null=True, blank=True)
+    bannerimage=models.ImageField(_("Bannerimage"),upload_to=upload_to, null=True, blank=True)
     Name=models.CharField(max_length=200,null=True,blank=True)
     URL=models.CharField(max_length=200,null=True,blank=True)
     Description=models.CharField(max_length=900,null=True,blank=True)
@@ -48,5 +47,5 @@ class account(models.Model):
     favorite=models.ManyToManyField(WorkArt,related_name='favorites', verbose_name=_('members'),null=True,blank=True)
     collection=models.ManyToManyField(collection,verbose_name=_('members'),related_name='collections',null=True, blank=True)
     WalletInfo=models.CharField(max_length=500, primary_key=True)
+    WorkArt=models.ManyToManyField(WorkArt,verbose_name=_('accounts'),related_name='Workarts',null=True, blank=True)
     
-#class WalletInfo(models.Model):

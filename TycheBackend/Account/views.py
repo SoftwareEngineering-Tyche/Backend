@@ -49,10 +49,10 @@ class collectionView(APIView):
             query.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(request.data, status=status.HTTP_201_CREATED)
-    def put(self,request,format=None):
+    def put(self,request,pk,format=None):
         parser_classes=[MultiPartParser, FormParser]
         try:
-            query=collection.objects.get(Name=request.data.get('id'))
+            query=collection.objects.get(id=pk)
         except:
             return Response("Error",status.HTTP_400_BAD_REQUEST)
         serializer=CollectionSerializer(query,data=request.data)

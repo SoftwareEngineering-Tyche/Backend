@@ -39,7 +39,7 @@ urlpatterns = [
     path('Account/',views.Account.as_view()),
     path('Account/<str:pk>',views.Account.as_view()),
     path('collection/',views.collectionView.as_view()),
-    path('collection/<int:pk>',views.collectionView.as_view()),
+    path('collection/<str:pk>',views.collectionView.as_view()),
     path('WorkArt/',views.WorkArt.as_view()),
     path('WorkArt/<int:pk>',views.WorkArt.as_view()),
     #path('Account/Edit/<int:pk>',views.EditAccount.as_view()),

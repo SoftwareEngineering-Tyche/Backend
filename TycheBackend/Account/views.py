@@ -38,11 +38,15 @@ class Account(APIView):
         return Response(serializer.data,status.HTTP_200_OK)
 
 class collectionView(APIView):
-    def post(self,request,format=None):
+    def post(self,request,pk,format=None):
         parser_classes=[MultiPartParser, FormParser]
         serializer=CollectionSerializer(data=request.data)
+        query=account.objects.get(WalletInfo=pk)
         if serializer.is_valid():
             serializer.save()
+            mycollection=collection.objects.get(id=serializer.data['id'])
+            query.collection.add(mycollection)
+            query.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(request.data, status=status.HTTP_201_CREATED)
     def put(self,request,format=None):

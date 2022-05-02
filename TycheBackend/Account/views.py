@@ -31,9 +31,9 @@ class Account(APIView):
     def get(self,request,pk):
         query=account.objects.get(WalletInfo=pk)
         #a=collection.objects.get()
-        l=query.collections.all()
-        d=CollectionSerializer(l,many=True)
-        serializer=AccountSerializer(query,l)
+        #l=query.collections.all()
+        #d=CollectionSerializer(l,many=True)
+        serializer=AccountSerializer(query)
         return Response(serializer.data,status.HTTP_200_OK)
     def delete(self,request,pk):
         query=account.objects.get(WalletInfo=pk)

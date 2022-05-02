@@ -45,7 +45,7 @@ class account(models.Model):
     bio=models.CharField(max_length=500,null=True,blank=True)
     avatar=models.ImageField(_("Avatar"),upload_to=upload_to, null=True, blank=True)
     banner=models.ImageField(_("Banner"),upload_to=upload_to, null=True, blank=True)
-    socials=models.cha(null=True, blank=True)
+    socials=models.CharField(max_length=100,null=True, blank=True)
     email=models.EmailField(null=True, blank=True)
     favorite=models.ManyToManyField(workart,related_name='favorites', verbose_name=_('members'),null=True,blank=True)
     collections=models.ManyToManyField(collection,verbose_name=_('members'),related_name='collections',null=True, blank=True)

@@ -57,7 +57,7 @@ class collectionView(APIView):
         if serializer.is_valid():
             serializer.save()
             mycollection=collection.objects.get(id=serializer.data['id'])
-            query.collection.add(mycollection)
+            query.collections.add(mycollection)
             query.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(request.data, status=status.HTTP_201_CREATED)

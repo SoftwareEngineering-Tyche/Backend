@@ -2,9 +2,10 @@ from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.response import Response
-from .models import account , collection, WorkArt
+from .models import account , collection, workart
 from .serializers import AccountSerializer, CollectionSerializer, WorkArtSerializer
 from rest_framework.parsers import MultiPartParser,FormParser
+import json
 # Create your views here.
 
 
@@ -29,13 +30,24 @@ class Account(APIView):
         return Response(request.data,status.HTTP_200_OK)
     def get(self,request,pk):
         query=account.objects.get(WalletInfo=pk)
-        serializer=AccountSerializer(query)
+        #a=collection.objects.get()
+        l=query.collections.all()
+        d=CollectionSerializer(l,many=True)
+        serializer=AccountSerializer(query,l)
         return Response(serializer.data,status.HTTP_200_OK)
     def delete(self,request,pk):
         query=account.objects.get(WalletInfo=pk)
         serializer=AccountSerializer(query)
         query.delete()
         return Response(serializer.data,status.HTTP_200_OK)
+
+class AccountCollection(APIView):
+    def get(self,request,pk):
+        query=account.objects.get(WalletInfo=pk)
+        #a=collection.objects.get()
+        l=query.collections.all()
+        d=CollectionSerializer(l,many=True)
+        return Response(d.data,status.HTTP_200_OK)
 
 class collectionView(APIView):
     def post(self,request,pk,format=None):
@@ -80,7 +92,7 @@ class WorkArt(APIView):
     def put(self,request,pk):
         parser_classes=[MultiPartParser, FormParser]
         try:
-            query=WorkArt.objects.get(Name=request.data.get('id'))
+            query=workart.objects.get(id=pk)
         except:
             return Response("Error",status.HTTP_400_BAD_REQUEST)
         serializer=WorkArtSerializer(query,data=request.data)
@@ -89,12 +101,12 @@ class WorkArt(APIView):
             return Response(serializer.data,status.HTTP_200_OK)
         return Response(request.data,status.HTTP_200_OK)
     def get(self,request,pk):
-        query=WorkArt.objects.get(id=pk)
+        query=workart.objects.get(id=pk)
         serializer=WorkArtSerializer(query)
         return Response(serializer.data,status.HTTP_200_OK)
     def delete(self,request,pk):
-        query=WorkArt.objects.get(WalletInfo=pk)
-        serializer=AccountSerializer(query)
+        query=workart.objects.get(id=pk)
+        serializer=WorkArtSerializer(query)
         query.delete()
         return Response(serializer.data,status.HTTP_200_OK)
         

@@ -16,15 +16,18 @@ def upload_to(instance, filename):
 
 
 # Create your models here.
-class WorkArt(models.Model):
+    
+class workart(models.Model):
     #account=models.ManyToManyField(account,related_name='accounts', verbose_name=_('WorkArts'),null=True,blank=True)
     Name=models.CharField(max_length=100,null=True,blank=True)
     image=models.ImageField(_("Image"),upload_to=upload_to, null=True, blank=True)
     Externallink=models.URLField(null=True,blank=True)
     Description=models.CharField(max_length=200,null=True,blank=True)
     Supply=models.IntegerField(null=True,blank=True)
-    Liked=models.IntegerField(null=True,blank=True)
-    BlockChain=models.CharField(max_length=5,null=True,blank=True)
+    Liked=models.IntegerField(default=0,null=True,blank=True)
+    BlockChain=models.CharField(default='Ether',max_length=5,null=True,blank=True)
+    Price=models.FloatField(null=True,blank=True)
+    
     
 class collection(models.Model):
     logoimage=models.ImageField(_("Logoimage"),upload_to=upload_to, null=True, blank=True)
@@ -35,7 +38,7 @@ class collection(models.Model):
     Description=models.CharField(max_length=900,null=True,blank=True)
     category=models.CharField(max_length=200,null=True,blank=True)
     DisplayTheme=models.CharField(max_length=200,null=True,blank=True)
-    WorkArts=models.ManyToManyField(WorkArt,related_name='collections', verbose_name=_('WorkArts'),null=True,blank=True)
+    WorkArts=models.ManyToManyField(workart,related_name='collections', verbose_name=_('WorkArts'),null=True,blank=True)
     
 class account(models.Model):
     username=models.CharField(max_length=100,null=True,blank=True)
@@ -44,8 +47,8 @@ class account(models.Model):
     banner=models.ImageField(_("Banner"),upload_to=upload_to, null=True, blank=True)
     socials=models.URLField(null=True, blank=True)
     email=models.EmailField(null=True, blank=True)
-    favorite=models.ManyToManyField(WorkArt,related_name='favorites', verbose_name=_('members'),null=True,blank=True)
-    collection=models.ManyToManyField(collection,verbose_name=_('members'),related_name='collections',null=True, blank=True)
+    favorite=models.ManyToManyField(workart,related_name='favorites', verbose_name=_('members'),null=True,blank=True)
+    collections=models.ManyToManyField(collection,verbose_name=_('members'),related_name='collections',null=True, blank=True)
     WalletInfo=models.CharField(max_length=500, primary_key=True)
-    WorkArt=models.ManyToManyField(WorkArt,verbose_name=_('accounts'),related_name='Workarts',null=True, blank=True)
+    WorkArt=models.ManyToManyField(workart,verbose_name=_('accounts'),related_name='Workarts',null=True, blank=True)
     

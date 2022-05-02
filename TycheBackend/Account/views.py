@@ -81,10 +81,13 @@ class collectionView(APIView):
         serializer=AccountSerializer(query)
         query.delete()
         return Response(serializer.data,status.HTTP_200_OK)
+    
+    
 class WorkArt(APIView):
     def post(self,request):
         parser_classes=[MultiPartParser, FormParser]
         serializer=WorkArtSerializer(data=request.data)
+        #query=collection.objects.get(id=pk)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -109,7 +112,3 @@ class WorkArt(APIView):
         serializer=WorkArtSerializer(query)
         query.delete()
         return Response(serializer.data,status.HTTP_200_OK)
-        
-    
-
-            

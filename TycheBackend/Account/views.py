@@ -2,8 +2,8 @@ from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.response import Response
-from .models import account , collection, workart
-from .serializers import AccountSerializer, CollectionSerializer, WorkArtSerializer
+from .models import account , collection, workart, statistic, property
+from .serializers import AccountSerializer, CollectionSerializer, WorkArtSerializer, PropertySerializer, StatisticSerializer
 from rest_framework.parsers import MultiPartParser,FormParser
 import json
 # Create your views here.
@@ -84,12 +84,14 @@ class collectionView(APIView):
     
     
 class WorkArt(APIView):
-    def post(self,request):
+    def post(self,request,pk):
         parser_classes=[MultiPartParser, FormParser]
         serializer=WorkArtSerializer(data=request.data)
-        #query=collection.objects.get(id=pk)
         if serializer.is_valid():
             serializer.save()
+            MyWorkArt=workart.objects.get(id=serializer.data['id'])
+            query=collection.objects.get(id=pk)
+            query.WorkArts.add(MyWorkArt)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(request.data, status=status.HTTP_400_BAD_REQUEST)
     def put(self,request,pk):
@@ -112,3 +114,49 @@ class WorkArt(APIView):
         serializer=WorkArtSerializer(query)
         query.delete()
         return Response(serializer.data,status.HTTP_200_OK)
+class WorkArtLike(APIView):
+    def post(self,request,pk):
+        parser_classes=[MultiPartParser, FormParser]
+        a=workart.objects.get(id=pk)
+        MyAccount=account.objects.get(WalletInfo=request.data['WalletInfo'])
+        MyAccount.favorites.add(a)
+        a.Liked+=1
+        a.save()
+        s=str(a.Liked)
+        return Response(s, status=status.HTTP_200_OK)
+   
+class WorkArtProperty(APIView):
+    def get():
+        return
+    def post(self,request,pk):
+        serializer=PropertySerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            a=property.objects.get(keyId=serializer.data['keyId'])
+            MyWorkArt=workart.objects.get(id=pk)
+            MyWorkArt.properties.add(a)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(request.data, status=status.HTTP_400_BAD_REQUEST)
+    
+class WorkArtstatistic(APIView):
+    def get():
+        return
+    def post(self,request,pk):
+        serializer=StatisticSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            a=statistic.objects.get(KeyId=serializer.data['keyId'])
+            MyWorkArt=workart.objects.get(id=pk)
+            MyWorkArt.statistics.add(a)  
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(request.data, status=status.HTTP_400_BAD_REQUEST)      
+
+class WorkArtCollection(APIView):
+    def get(self, request,pk):
+        a=workart.objects.get(id=pk)
+        s=a.collections.all()
+        print("------------")
+        query=collection.objects.get(id=s[0].id)
+        l=query.WorkArts.all()
+        d=WorkArtSerializer(l,many=True)
+        return Response(d.data, status=status.HTTP_200_OK)

@@ -12,8 +12,14 @@ def upload_to(instance, filename):
     base, extension = os.path.splitext(filename.lower())
     milliseconds = now.microsecond // 1000
     return f"users/{instance.pk}/{now:%Y%m%d%H%M%S}{milliseconds}{extension}"
+class property(models.Model):
+    keyId=models.CharField(max_length=100,null=True,blank=True)
+    value=models.CharField(max_length=100,null=True,blank=True)
 
-
+class statistic(models.Model):
+    KeyId=models.CharField(max_length=100,null=True,blank=True)
+    value=models.IntegerField(default=0,null=True,blank=True)
+    
 
 # Create your models here.
     
@@ -27,6 +33,8 @@ class workart(models.Model):
     Liked=models.IntegerField(default=0,null=True,blank=True)
     BlockChain=models.CharField(default='Ether',max_length=5,null=True,blank=True)
     Price=models.FloatField(null=True,blank=True)
+    properties=models.ManyToManyField(property,related_name='properties', null=True,blank=True)
+    statistics=models.ManyToManyField(statistic,related_name='statistics', null=True,blank=True)
     
     
 class collection(models.Model):
@@ -47,8 +55,8 @@ class account(models.Model):
     banner=models.ImageField(_("Banner"),upload_to=upload_to, null=True, blank=True)
     socials=models.CharField(max_length=100,null=True, blank=True)
     email=models.EmailField(null=True, blank=True)
-    favorite=models.ManyToManyField(workart,related_name='favorites', verbose_name=_('members'),null=True,blank=True)
+    favorites=models.ManyToManyField(workart,related_name='favorites', verbose_name=_('members'),null=True,blank=True)
     collections=models.ManyToManyField(collection,verbose_name=_('members'),related_name='collections',null=True, blank=True)
     WalletInfo=models.CharField(max_length=500, primary_key=True)
-    WorkArt=models.ManyToManyField(workart,verbose_name=_('accounts'),related_name='Workarts',null=True, blank=True)
+    WorkArts=models.ManyToManyField(workart,verbose_name=_('accounts'),related_name='Workarts',null=True, blank=True)
     

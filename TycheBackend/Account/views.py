@@ -190,7 +190,11 @@ class Search(APIView):
         res=workart.objects.complex_filter(nftfilter)
         nfts=WorkArtSerializer(res,many=True)
 
+        #collections
+        collectionsfilter=(Q(Name__contains=serachfield)| Q(URL__contains=serachfield)|Q(Description__contains=serachfield)| Q(category__contains=serachfield))
+        res=collection.objects.complex_filter(collectionsfilter)
+        collections=CollectionSerializer(res,many=True)
 
-        return Response({'status':'success', 'data':{'accounts':users.data, 'NFTs':nfts.data}, 'message':''},status=200)
+        return Response({'status':'success', 'data':{'accounts':users.data, 'NFTs':nfts.data, 'collections':collections.data}, 'message':''},status=200)
 
 

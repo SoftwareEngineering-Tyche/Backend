@@ -195,6 +195,13 @@ class Search(APIView):
         res=collection.objects.complex_filter(collectionsfilter)
         collections=CollectionSerializer(res,many=True)
 
-        return Response({'status':'success', 'data':{'accounts':users.data, 'NFTs':nfts.data, 'collections':collections.data}, 'message':''},status=200)
+        #property
+        propertyfilter=(Q(keyId__contains=serachfield)| Q(value__contains=serachfield))
+        res=property.objects.complex_filter(propertyfilter)
+        properties=PropertySerializer(res,many=True)
+
+
+
+        return Response({'status':'success', 'data':{'accounts':users.data, 'NFTs':nfts.data, 'collections':collections.data, 'property':properties.data}, 'message':''},status=200)
 
 

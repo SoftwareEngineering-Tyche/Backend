@@ -179,11 +179,18 @@ class Search(APIView):
         serachfield = data["search"]
 
 
-
+        #accounts
         userfilter=(Q(username__contains=serachfield)| Q(email__contains=serachfield)|Q(bio__contains=serachfield)|Q(socials__contains=serachfield) | Q(WalletInfo__contains=serachfield))
         res=account.objects.complex_filter(userfilter)
         users=AccountSerializer(res,many=True)
 
-        return Response({'status':'success', 'data':{'accounts':users.data }, 'message':''},status=200)
+
+        #NFTs
+        nftfilter=(Q(Name__contains=serachfield)| Q(Externallink__contains=serachfield)|Q(Description__contains=serachfield))
+        res=workart.objects.complex_filter(nftfilter)
+        nfts=WorkArtSerializer(res,many=True)
+
+
+        return Response({'status':'success', 'data':{'accounts':users.data, 'NFTs':nfts.data}, 'message':''},status=200)
 
 

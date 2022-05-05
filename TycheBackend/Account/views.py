@@ -6,7 +6,15 @@ from .models import account , collection, workart, statistic, property
 from .serializers import AccountSerializer, CollectionSerializer, WorkArtSerializer, PropertySerializer, StatisticSerializer
 from rest_framework.parsers import MultiPartParser,FormParser
 import json
+from django.db.models import Q
 # Create your views here.
+
+
+def validate_data(data, required_data):
+    for key in required_data:
+        if key not in data:
+            return False
+    return True
 
 
 class Account(APIView):
@@ -160,3 +168,22 @@ class WorkArtCollection(APIView):
         l=query.WorkArts.all()
         d=WorkArtSerializer(l,many=True)
         return Response(d.data, status=status.HTTP_200_OK)
+
+
+class Search(APIView):
+    def get(self, req):
+        data = req.data
+        # check data
+        if not validate_data(data, ['search']):
+            return Response({'status':'failed', 'data':{}, 'message':f"required_data: {['search']}"}, status=400)
+        serachfield = data["search"]
+
+
+
+        userfilter=(Q(username__contains=serachfield)| Q(email__contains=serachfield)|Q(bio__contains=serachfield)|Q(socials__contains=serachfield) | Q(WalletInfo__contains=serachfield))
+        res=account.objects.complex_filter(userfilter)
+        users=AccountSerializer(res,many=True)
+
+        return Response({'status':'success', 'data':{'accounts':users.data }, 'message':''},status=200)
+
+

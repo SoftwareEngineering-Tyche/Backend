@@ -47,6 +47,8 @@ urlpatterns = [
     path('WorkArt/',views.WorkArt.as_view()),
     path('WorkArt/<str:pk>',views.WorkArt.as_view()),
     path('WorkArtCollection/<str:pk>',views.WorkArtCollection.as_view()),
+    path('search',views.Search.as_view()),
+
     #path('Account/Edit/<int:pk>',views.EditAccount.as_view()),
     #path('Account/Get/<int:pk>',views.GetAccount.as_view()),
     re_path(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),

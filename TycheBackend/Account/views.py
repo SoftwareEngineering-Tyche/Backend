@@ -135,7 +135,8 @@ class WorkArtLike(APIView):
         return Response(s, status=status.HTTP_200_OK)
    
 class WorkArtProperty(APIView):
-    def get():
+    def get(self,request,pk):
+        
         return
     def post(self,request,pk):
         serializer=PropertySerializer(data=request.data)
@@ -165,7 +166,6 @@ class WorkArtCollection(APIView):
     def get(self, request,pk):
         a=workart.objects.get(id=pk)
         s=a.collections.all()
-        print("------------")
         query=collection.objects.get(id=s[0].id)
         l=query.WorkArts.all()
         d=WorkArtSerializer(l,many=True)
@@ -177,13 +177,6 @@ class collectionworkarts(APIView):
         d=WorkArtSerializer(myworkarts,many=True)
         return Response(d.data,status.HTTP_200_OK)
         
-class AccountWorkarts(APIView):
-    def get(self, request,pk):
-        query=Account.objects.get(WalletInfo=pk)
-        query=query.Workarts.all()
-        serializer=WorkArtSerializer(query,many=True)
-        return Response(serializer.data,status.HTTP_200_OK)
-
 class AccountWorkarts(APIView):
     def get(self, request,pk):
         query=account.objects.get(WalletInfo=pk)

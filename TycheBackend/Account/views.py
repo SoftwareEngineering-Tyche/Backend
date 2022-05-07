@@ -124,6 +124,13 @@ class WorkArt(APIView):
         query.delete()
         return Response(serializer.data,status.HTTP_200_OK)
 class WorkArtLike(APIView):
+    def get (self,request,pk):
+        a=workart.objects.get(id=pk)
+        MyAccount=account.objects.get(WalletInfo=request.data['WalletInfo'])
+        list=MyAccount.favorites.all()
+        isliked=list.filter(id=a.id).exists()
+        return Response(isliked,status.HTTP_200_OK) 
+            
     def post(self,request,pk):
         parser_classes=[MultiPartParser, FormParser]
         a=workart.objects.get(id=pk)

@@ -98,8 +98,7 @@ class WorkArt(APIView):
         serializer=WorkArtSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            MyWorkArt=workart.objects.get(id=serializer.data['id'])
-            
+            MyWorkArt=workart.objects.get(id=serializer.data['id'])           
             query=collection.objects.get(id=pk)
             query.WorkArts.add(MyWorkArt)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -145,7 +144,7 @@ class WorkArtProperty(APIView):
         serializer=PropertySerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            a=property.objects.get(keyId=serializer.data['keyId'])
+            a=property.objects.get(KeyId=serializer.data['keyId'])
             MyWorkArt=workart.objects.get(id=pk)
             MyWorkArt.properties.add(a)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -186,8 +185,14 @@ class collectionworkarts(APIView):
 class AccountWorkarts(APIView):
     def get(self, request,pk):
         query=account.objects.get(WalletInfo=pk)
-        query=query.WorkArts.all()
-        serializer=WorkArtSerializer(query,many=True)
+        l=query.collections.all()
+        list=[]
+        for i in l:
+            o=i.WorkArts.all()
+            for z in o:
+                list.append(z)
+        serializer=WorkArtSerializer(list,many=True)
+        print(str(list[0]))
         return Response(serializer.data,status.HTTP_200_OK)
 
 #favorites

@@ -180,7 +180,7 @@ class collectionworkarts(APIView):
 class AccountWorkarts(APIView):
     def get(self, request,pk):
         query=account.objects.get(WalletInfo=pk)
-        query=query.Workarts.all()
+        query=query.WorkArts.all()
         serializer=WorkArtSerializer(query,many=True)
         return Response(serializer.data,status.HTTP_200_OK)
 

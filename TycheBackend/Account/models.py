@@ -17,7 +17,7 @@ class property(models.Model):
     value=models.CharField(max_length=100,null=True,blank=True)
 
 class statistic(models.Model):
-    keyId=models.CharField(max_length=100,null=True,blank=True)
+    key=models.CharField(max_length=100,null=True,blank=True)
     value=models.IntegerField(default=0,null=True,blank=True)
     
 

@@ -28,4 +28,4 @@ class PropertySerializer(serializers.ModelSerializer):
 class StatisticSerializer(serializers.ModelSerializer):
     class Meta:
             model=statistic
-            fields = ['key','value']
+            fields = ['sid','value']

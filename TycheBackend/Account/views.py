@@ -138,7 +138,7 @@ class WorkArtLike(APIView):
         list=MyAccount.favorites.all()
         isliked=list.filter(id=a.id).exists()
         if isliked:
-            MyAccount.favorites.delete(a)
+            MyAccount.favorites.remove(a)
             a.Liked-=1
         else:
             MyAccount.favorites.add(a)

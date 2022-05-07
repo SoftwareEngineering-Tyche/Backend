@@ -141,6 +141,13 @@ class WorkArtLike(APIView):
         s=str(a.Liked)
         return Response(s, status=status.HTTP_200_OK)
    
+class WorkArtLiked(APIView):
+    def post (self,request,pk):
+        a=workart.objects.get(id=pk)
+        MyAccount=account.objects.get(WalletInfo=request.data['WalletInfo'])
+        list=MyAccount.favorites.all()
+        isliked=list.filter(id=a.id).exists()
+        return Response(isliked,status.HTTP_200_OK) 
 class WorkArtProperty(APIView):
     def get(self,request,pk):
         myworkart=workart.objects.get(id=pk)

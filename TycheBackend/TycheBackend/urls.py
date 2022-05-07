@@ -44,6 +44,7 @@ urlpatterns = [
     path('WorkArtProperty/<str:pk>',views.WorkArtProperty.as_view()),
     path('WorkArtstatistic/<str:pk>',views.WorkArtstatistic.as_view()),
     path('WorkArtLike/<str:pk>',views.WorkArtLike.as_view()),
+    path('WorkArtLiked/<str:pk>',views.WorkArtLiked.as_view()),
     path('WorkArt/',views.WorkArt.as_view()),
     path('WorkArt/<str:pk>',views.WorkArt.as_view()),
     path('WorkArtCollection/<str:pk>',views.WorkArtCollection.as_view()),

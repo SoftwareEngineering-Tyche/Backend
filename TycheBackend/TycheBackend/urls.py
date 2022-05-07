@@ -47,6 +47,7 @@ urlpatterns = [
     path('WorkArt/',views.WorkArt.as_view()),
     path('WorkArt/<str:pk>',views.WorkArt.as_view()),
     path('WorkArtCollection/<str:pk>',views.WorkArtCollection.as_view()),
+    path('WorkArtCollections/<str:pk>',views.collectionworkarts.as_view()),
     path('search',views.Search.as_view()),
 
     #path('Account/Edit/<int:pk>',views.EditAccount.as_view()),

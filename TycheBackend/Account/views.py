@@ -1,3 +1,4 @@
+import collections
 from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework import status
@@ -168,7 +169,14 @@ class WorkArtCollection(APIView):
         l=query.WorkArts.all()
         d=WorkArtSerializer(l,many=True)
         return Response(d.data, status=status.HTTP_200_OK)
-
+class collectionworkarts(APIView):
+    def get(self, request,pk):
+        mycollection=collection.objects.get(id=pk)
+        myworkarts=mycollection.WorkArts.all()
+        d=WorkArtSerializer(myworkarts,many=True)
+        return Response(d.data,status.HTTP_200_OK)
+        
+    
 
 class Search(APIView):
     def get(self, req):

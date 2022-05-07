@@ -145,7 +145,7 @@ class WorkArtProperty(APIView):
         serializer=PropertySerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            a=property.objects.get(sid=serializer.data['key'])
+            a=property.objects.get(keyId=serializer.data['keyId'])
             MyWorkArt=workart.objects.get(id=pk)
             MyWorkArt.properties.add(a)
             return Response(serializer.data, status=status.HTTP_201_CREATED)

@@ -135,8 +135,15 @@ class WorkArtLike(APIView):
         parser_classes=[MultiPartParser, FormParser]
         a=workart.objects.get(id=pk)
         MyAccount=account.objects.get(WalletInfo=request.data['WalletInfo'])
-        MyAccount.favorites.add(a)
-        a.Liked+=1
+        list=MyAccount.favorites.all()
+        isliked=list.filter(id=a.id).exists()
+        if isliked:
+            MyAccount.favorites.delete(a)
+            a.Liked-=1
+        else:
+            MyAccount.favorites.add(a)
+            a.Liked+=1
+        
         a.save()
         s=str(a.Liked)
         return Response(s, status=status.HTTP_200_OK)

@@ -226,6 +226,9 @@ class Explore(APIView):
             hotest=CollectionSerializer(res[-n//3:],many=True)
             result['hotest'].append(hotest.data)
 
+        if data['favorites']:
+            favorites=CollectionSerializer(res[n//3:(2*n)//3],many=True)
+            result['favorites'].append(favorites.data)
 
 
         return Response({'status':'success', 'data':result, 'message':''},status=200)

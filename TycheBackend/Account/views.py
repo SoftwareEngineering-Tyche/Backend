@@ -211,3 +211,31 @@ class Search(APIView):
         return Response({'status':'success', 'data':{'accounts':users.data, 'NFTs':nfts.data, 'collections':collections.data, 'properties':properties.data, 'statistics':statistics.data}, 'message':''},status=200)
 
 
+
+class Explore(APIView):
+    def get(self, req):
+        data = req.data
+        # check data
+        if not validate_data(data, ['hotest','favorites','latest']):
+            return Response({'status':'failed', 'data':{}, 'message':f"required_data: {['hotest','favorites','latest']}"}, status=400)
+
+        result={'hotest':[],'favorites':[],'latest':[]}
+        res=collection.objects.all()
+        n= len(res)
+        if data['hotest']:
+            hotest=CollectionSerializer(res[(2*n)//3:],many=True)
+            result['hotest'].append(hotest.data)
+
+        if data['favorites']:
+            favorites=CollectionSerializer(res[n//3:(2*n)//3],many=True)
+            result['favorites'].append(favorites.data)
+
+
+        if data['latest']:
+            latest=CollectionSerializer(res[:n//3],many=True)
+            result['latest'].append(latest.data)
+
+
+        return Response({'status':'success', 'data':result, 'message':''},status=200)
+
+

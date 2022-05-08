@@ -231,6 +231,11 @@ class Explore(APIView):
             result['favorites'].append(favorites.data)
 
 
+        if data['latest']:
+            latest=CollectionSerializer(res[:n//3],many=True)
+            result['latest'].append(latest.data)
+
+
         return Response({'status':'success', 'data':result, 'message':''},status=200)
 
 

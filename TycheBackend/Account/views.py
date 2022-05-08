@@ -223,7 +223,7 @@ class Explore(APIView):
         res=collection.objects.all()
         n= len(res)
         if data['hotest']:
-            hotest=CollectionSerializer(res[-n//3:],many=True)
+            hotest=CollectionSerializer(res[(2*n)//3:],many=True)
             result['hotest'].append(hotest.data)
 
         if data['favorites']:

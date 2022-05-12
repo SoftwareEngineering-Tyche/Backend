@@ -165,7 +165,7 @@ class WorkArtProperty(APIView):
         serializer=PropertySerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            a=property.objects.get(KeyId=serializer.data['keyId'])
+            a=property.objects.get(subject=serializer.data['subject'])
             MyWorkArt=workart.objects.get(id=pk)
             MyWorkArt.properties.add(a)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -182,7 +182,7 @@ class WorkArtstatistic(APIView):
         serializer=StatisticSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            a=statistic.objects.get(sid=serializer.data['sid'])
+            a=statistic.objects.get(subject=serializer.data['subject'])
             MyWorkArt=workart.objects.get(id=pk)
             MyWorkArt.statistics.add(a)  
             return Response(serializer.data, status=status.HTTP_201_CREATED)

@@ -23,9 +23,9 @@ class WorkArtSerializer(serializers.ModelSerializer):
 class PropertySerializer(serializers.ModelSerializer):
         class Meta:
             model=property
-            fields = ['keyId','value']
+            fields = ['subject','value']
 
 class StatisticSerializer(serializers.ModelSerializer):
     class Meta:
             model=statistic
-            fields = ['sid','value']
+            fields = ['subject','value']

@@ -13,14 +13,13 @@ def upload_to(instance, filename):
     milliseconds = now.microsecond // 1000
     return f"users/{instance.pk}/{now:%Y%m%d%H%M%S}{milliseconds}{extension}"
 class property(models.Model):
-    keyId=models.CharField(max_length=100,null=True,blank=True)
+    subject=models.CharField(max_length=100,null=True,blank=True)
     value=models.CharField(max_length=100,null=True,blank=True)
 
 class statistic(models.Model):
-    keyId=models.CharField(max_length=100,null=True,blank=True)
+    subject=models.CharField(max_length=100,null=True,blank=True)
     value=models.IntegerField(default=0,null=True,blank=True)
     
-
 # Create your models here.
     
 class workart(models.Model):

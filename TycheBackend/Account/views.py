@@ -213,8 +213,8 @@ class Search(APIView):
 
 
 class Explore(APIView):
-    def get(self, req):
-        data = req.data
+    def post(self, request):
+        data = request.data
         # check data
         if not validate_data(data, ['hotest','favorites','latest']):
             return Response({'status':'failed', 'data':{}, 'message':f"required_data: {['hotest','favorites','latest']}"}, status=400)

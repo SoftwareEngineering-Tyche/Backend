@@ -13,11 +13,11 @@ def upload_to(instance, filename):
     milliseconds = now.microsecond // 1000
     return f"users/{instance.pk}/{now:%Y%m%d%H%M%S}{milliseconds}{extension}"
 class property(models.Model):
-    keyId=models.CharField(max_length=100,null=True,blank=True)
+    subject=models.CharField(max_length=100,null=True,blank=True)
     value=models.CharField(max_length=100,null=True,blank=True)
 
 class statistic(models.Model):
-    keyId=models.CharField(max_length=100,null=True,blank=True)
+    subject=models.CharField(max_length=100,null=True,blank=True)
     value=models.IntegerField(default=0,null=True,blank=True)
     
 
@@ -58,5 +58,5 @@ class account(models.Model):
     favorites=models.ManyToManyField(workart,related_name='favorites', verbose_name=_('members'),null=True,blank=True)
     collections=models.ManyToManyField(collection,verbose_name=_('members'),related_name='collections',null=True, blank=True)
     WalletInfo=models.CharField(max_length=500, primary_key=True)
-    WorkArts=models.ManyToManyField(workart,verbose_name=_('accounts'),related_name='Workarts',null=True, blank=True)
+    WorkArts=models.ManyToManyField(workart,verbose_name=_('accounts'),related_name='WorkArts',null=True, blank=True)
     

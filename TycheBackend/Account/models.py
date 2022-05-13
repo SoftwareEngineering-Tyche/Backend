@@ -20,7 +20,6 @@ class statistic(models.Model):
     subject=models.CharField(max_length=100,null=True,blank=True)
     value=models.IntegerField(default=0,null=True,blank=True)
     
-
 # Create your models here.
     
 class workart(models.Model):

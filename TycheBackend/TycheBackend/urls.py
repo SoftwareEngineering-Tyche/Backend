@@ -56,6 +56,10 @@ urlpatterns = [
     #Accountfavorites
     path('search',views.Search.as_view()),
     path('explore',views.Explore.as_view()),
+    path('sortNFT',views.SortNFT.as_view()),
+    path('sortCollection',views.Sortcollection.as_view()),
+
+
 
     #path('Account/Edit/<int:pk>',views.EditAccount.as_view()),
     #path('Account/Get/<int:pk>',views.GetAccount.as_view()),

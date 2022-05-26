@@ -51,6 +51,8 @@ urlpatterns = [
     path('explore',views.Explore.as_view()),
     path('sortNFT',views.SortNFT.as_view()),
     path('sortCollection',views.Sortcollection.as_view()),
+    path('filterNFT',views.FilterNFT.as_view()),
+
 
 
 

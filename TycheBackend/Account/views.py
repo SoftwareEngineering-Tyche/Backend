@@ -223,7 +223,7 @@ class Explore(APIView):
         res=collection.objects.all()
         n= len(res)
         if data['hotest']:
-            hotest=CollectionSerializer(res[-n//3:],many=True)
+            hotest=CollectionSerializer(res[(2*n)//3:],many=True)
             result['hotest'].append(hotest.data)
 
         if data['favorites']:
@@ -237,5 +237,84 @@ class Explore(APIView):
 
 
         return Response({'status':'success', 'data':result, 'message':''},status=200)
+
+
+class SortNFT(APIView):
+    def get(self, req):
+        data = req.data
+        # check data
+
+        if not validate_data(data, ['params','kind']):
+            return Response({'status':'failed', 'data':{}, 'message':f"required_data: {['params','kind']}"}, status=400)
+        res=[]
+        NFTS=workart.objects.all()
+
+        if data['params']=='price':
+            res = NFTS.order_by('Price')
+
+        elif data['params']=='liked':
+            res = NFTS.order_by('Liked')
+
+        elif data['params']=='date':
+            res = NFTS.order_by('created_at')
+        else :
+            return Response({'status':'failed', 'data':{}, 'message':f"wrong params for sorting"}, status=400)
+
+
+
+
+        d=WorkArtSerializer(res,many=True)
+        if data['kind']=='ascending':
+            return Response({'status':'success', 'data':d.data, 'message':''},status=200)
+
+        elif data['kind']=='descending':
+            q=WorkArtSerializer(res.reverse(),many=True)
+
+            return Response({'status':'success', 'data':q.data, 'message':''},status=200)
+        else :
+            return Response({'status':'failed', 'data':{}, 'message':f"wrong sort kind "}, status=400)
+
+
+class Sortcollection(APIView):
+    def get(self, req):
+        data = req.data
+        # check data
+
+        if not validate_data(data, ['params','kind']):
+            return Response({'status':'failed', 'data':{}, 'message':f"required_data: {['params','kind']}"}, status=400)
+        res=[]
+
+        collections=collection.objects.all()
+
+        if data['params']=='liked':
+            res = collections.order_by('Liked')
+
+        elif data['params']=='date':
+            res = collections.order_by('created_at')
+        else :
+            return Response({'status':'failed', 'data':{}, 'message':f"wrong params for sorting"}, status=400)
+
+
+        d=CollectionSerializer(res,many=True)
+        if data['kind']=='ascending':
+            return Response({'status':'success', 'data':d.data, 'message':''},status=200)
+
+        elif data['kind']=='descending':
+            q=CollectionSerializer(res.reverse(),many=True)
+            return Response({'status':'success', 'data':q.data, 'message':''},status=200)
+        else :
+            return Response({'status':'failed', 'data':{}, 'message':f"wrong sort kind "}, status=400)
+
+class FilterNFT(APIView):
+    def get(self, req):
+        data = req.data
+        # check data
+
+        if not validate_data(data, ['price_l','price_h','blockchain']):
+            return Response({'status':'failed', 'data':{}, 'message':f"required_data: {['price_l','price_h','blockchain']}"}, status=400)
+        NFTS=workart.objects.all().filter(Q(Price__lt=data['price_h']) , Q(Price__gt=data['price_l']),Q(BlockChain=data['blockchain'])).values()
+        d=WorkArtSerializer(NFTS,many=True)
+
+        return Response({'status':'success', 'data':d.data, 'message':''},status=200)
 
 

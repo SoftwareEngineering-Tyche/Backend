@@ -35,7 +35,8 @@ class workart(models.Model):
     Price=models.FloatField(null=True,blank=True)
     properties=models.ManyToManyField(property,related_name='properties', null=True,blank=True)
     statistics=models.ManyToManyField(statistic,related_name='statistics', null=True,blank=True)
-    
+    created_at = models.DateTimeField(auto_now_add=True)
+
     
 class collection(models.Model):
     logoimage=models.ImageField(_("Logoimage"),upload_to=upload_to, null=True, blank=True)
@@ -47,7 +48,9 @@ class collection(models.Model):
     category=models.CharField(max_length=200,null=True,blank=True)
     DisplayTheme=models.CharField(max_length=200,null=True,blank=True)
     WorkArts=models.ManyToManyField(workart,related_name='collections', verbose_name=_('WorkArts'),null=True,blank=True)
-    
+    created_at = models.DateTimeField(auto_now_add=True)
+    Liked=models.IntegerField(default=0,null=True,blank=True)
+
 class account(models.Model):
     username=models.CharField(max_length=100,null=True,blank=True)
     bio=models.CharField(max_length=500,null=True,blank=True)

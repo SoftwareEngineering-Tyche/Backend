@@ -358,3 +358,17 @@ class Sortcollection(APIView):
             return Response({'status':'success', 'data':q.data, 'message':''},status=200)
         else :
             return Response({'status':'failed', 'data':{}, 'message':f"wrong sort kind "}, status=400)
+
+class FilterNFT(APIView):
+    def get(self, req):
+        data = req.data
+        # check data
+
+        if not validate_data(data, ['price_l','price_h','blockchain']):
+            return Response({'status':'failed', 'data':{}, 'message':f"required_data: {['price_l','price_h','blockchain']}"}, status=400)
+        NFTS=workart.objects.all().filter(Q(Price__lt=data['price_h']) , Q(Price__gt=data['price_l']),Q(BlockChain=data['blockchain'])).values()
+        d=WorkArtSerializer(NFTS,many=True)
+
+        return Response({'status':'success', 'data':d.data, 'message':''},status=200)
+
+

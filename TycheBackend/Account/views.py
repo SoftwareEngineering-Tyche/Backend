@@ -294,7 +294,7 @@ class Explore(APIView):
 
 
 class SortNFT(APIView):
-    def get(self, req):
+    def post(self, req):
         data = req.data
         # check data
 
@@ -330,7 +330,7 @@ class SortNFT(APIView):
 
 
 class Sortcollection(APIView):
-    def get(self, req):
+    def post(self, req):
         data = req.data
         # check data
 
@@ -360,7 +360,7 @@ class Sortcollection(APIView):
             return Response({'status':'failed', 'data':{}, 'message':f"wrong sort kind "}, status=400)
 
 class FilterNFT(APIView):
-    def get(self, req):
+    def post(self, req):
         data = req.data
         # check data
 

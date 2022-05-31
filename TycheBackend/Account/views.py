@@ -250,13 +250,13 @@ class Search(APIView):
         collections=CollectionSerializer(res,many=True)
 
         #property
-        propertyfilter=(Q(keyId__contains=serachfield)| Q(value__contains=serachfield))
+        propertyfilter=(Q(subject__contains=serachfield)| Q(value__contains=serachfield))
         res=property.objects.complex_filter(propertyfilter)
         properties=PropertySerializer(res,many=True)
 
 
         #statistic
-        statisticfilter=(Q(keyId__contains=serachfield)| Q(value__contains=serachfield))
+        statisticfilter=(Q(subject__contains=serachfield)| Q(value__contains=serachfield))
         res=statistic.objects.complex_filter(statisticfilter)
         statistics=StatisticSerializer(res,many=True)
 

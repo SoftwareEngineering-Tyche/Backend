@@ -374,7 +374,7 @@ class WorkArtOffer(APIView):
     def get(self,request,pk):
         workartid=workart.objects.get(id=pk)
         workartoffers=workartid.WorkArtOffers.all()
-        serializer=WorkArtOfferSerializer(data=workartoffers,many=True)
+        serializer=WorkArtOfferSerializer(workartoffers,many=True)
         return Response(serializer.data,status=status.HTTP_200_OK)
 
 class accountworkarts(APIView):

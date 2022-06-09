@@ -41,7 +41,7 @@ class workart(models.Model):
     Price=models.FloatField(null=True,blank=True)
     properties=models.ManyToManyField(property,related_name='properties', null=True,blank=True)
     statistics=models.ManyToManyField(statistic,related_name='statistics', null=True,blank=True)
-    workartoffers=models.ManyToManyField(workartoffer,related_name='workartoffers', null=True,blank=True)
+    WorkArtOffers=models.ManyToManyField(workartoffer,related_name='WorkArtOffers', null=True,blank=True)
     #created_at = models.DateTimeField(auto_now_add=True)
 
     

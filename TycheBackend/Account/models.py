@@ -54,7 +54,7 @@ class collection(models.Model):
     category=models.CharField(max_length=200,null=True,blank=True)
     DisplayTheme=models.CharField(max_length=200,null=True,blank=True)
     WorkArts=models.ManyToManyField(workart,related_name='collections', verbose_name=_('WorkArts'),null=True,blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)
+    #created_at = models.DateTimeField(auto_now_add=True)
     Liked=models.IntegerField(default=0,null=True,blank=True)
 
 class account(models.Model):

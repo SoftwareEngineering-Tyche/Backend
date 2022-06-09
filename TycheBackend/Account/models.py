@@ -7,19 +7,18 @@ from django.utils.translation import gettext_lazy as _
 from datetime import datetime
 import os
 
+
 def upload_to(instance, filename):
     now = timezone.now()
     base, extension = os.path.splitext(filename.lower())
     milliseconds = now.microsecond // 1000
     return f"users/{instance.pk}/{now:%Y%m%d%H%M%S}{milliseconds}{extension}"
-
 class workartoffer(models.Model):
     Price=models.FloatField(null=True, blank=True)
     usdPrice=models.FloatField(null=True, blank=True)
     Date=models.DateTimeField(null=True, blank=True) 
     status=models.CharField(max_length=100,default="Pending",null=True, blank=True)
-    From=models.CharField(max_length=100,null=True, blank=True)
-    
+    From=models.CharField(max_length=100,null=True, blank=True)    
 class property(models.Model):
     subject=models.CharField(max_length=100,null=True,blank=True)
     value=models.CharField(max_length=100,null=True,blank=True)

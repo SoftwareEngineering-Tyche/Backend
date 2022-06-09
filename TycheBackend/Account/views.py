@@ -418,5 +418,5 @@ class  worrkartofferaccept(APIView):
         else:
             workartid.status="rejected"
         workartid.save()
-        return Response("ok",status=status.HTTP_200_OK)
+        return Response("Ok",status=status.HTTP_200_OK)
              

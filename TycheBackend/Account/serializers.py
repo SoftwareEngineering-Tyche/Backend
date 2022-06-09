@@ -59,7 +59,7 @@ class WorkArtOfferSerializer(serializers.ModelSerializer):
         model=workartoffer
         fields=['id','Price','usdPrice','Date','status','From']
 
-        def create(self, validated_data):
+        def save(self, validated_data):
             # as long as the fields are the same, we can just use this
             mynow=timezone.now()
             k=gregorian_to_jalali(mynow.year,mynow.month,mynow.day) 

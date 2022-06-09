@@ -3,8 +3,8 @@ from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.response import Response
-from .models import account , collection, workart, statistic, property
-from .serializers import AccountSerializer, CollectionSerializer, WorkArtSerializer, PropertySerializer, StatisticSerializer
+from .models import account , collection, workart, statistic, property, WorkArtOffer
+from .serializers import AccountSerializer, CollectionSerializer, WorkArtSerializer, PropertySerializer, StatisticSerializer, WorkArtOfferSerializer
 from rest_framework.parsers import MultiPartParser,FormParser
 import json
 from django.db.models import Q
@@ -358,3 +358,27 @@ class Sortcollection(APIView):
             return Response({'status':'success', 'data':q.data, 'message':''},status=200)
         else :
             return Response({'status':'failed', 'data':{}, 'message':f"wrong sort kind "}, status=400)
+
+class WorkArtOffer(APIView):
+    def post(self,request,pk):
+        accountid=account.objects.get(WalletInfo=request.data['From'])
+        serializer=WorkArtOfferSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            workartofferid=WorkArtOffer.objects.get(id=serializer.data['id'])
+            workart.WorkArtOffers.add(workartofferid)
+            accountid.WorkArtOffers.add(workartofferid)
+            return Response(serializer.data,status.HTTP_200_OK)
+        return Response(request.data, status=status.HTTP_400_BAD_REQUEST)   
+    def get(self,request,pk):
+        workartid=workart.objects.get(id=pk)
+        workartoffers=workartid.WorkArtOffers.all()
+        serializer=WorkArtOfferSerializer(data=workartoffers,many=True)
+        return Response(serializer.data,status=status.HTTP_200_OK)
+
+class accountworkarts(APIView):
+    def get(self,request,pk):
+        accountid=accountworkarts.objects.get(WalletInfo=pk)
+        workartoffers=accountid.WorkArtOffers.all()
+        serializer=WorkArtOfferSerializer(data=workartoffers,many=True)
+        return Response(serializer.data,status=status.HTTP_200_OK)        

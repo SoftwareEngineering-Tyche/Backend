@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import account, collection, workart, property, statistic, WorkArtOffer
+from .models import account, collection, workart, property, statistic, workartoffer
 
 class CollectionSerializer(serializers.ModelSerializer):
     class Meta:
@@ -32,5 +32,5 @@ class StatisticSerializer(serializers.ModelSerializer):
 
 class WorkArtOfferSerializer(serializers.ModelSerializer):
     class Meta:
-        model=WorkArtOffer
+        model=workartoffer
         fields=['Price','usdPrice','Date']

@@ -13,7 +13,7 @@ def upload_to(instance, filename):
     milliseconds = now.microsecond // 1000
     return f"users/{instance.pk}/{now:%Y%m%d%H%M%S}{milliseconds}{extension}"
 
-class WorkArtOffer(models.Model):
+class workartoffer(models.Model):
     Price=models.FloatField(null=True, blank=True)
     usdPrice=models.FloatField(null=True, blank=True)
     Date=models.DateTimeField(auto_now_add=True) 
@@ -40,7 +40,7 @@ class workart(models.Model):
     Price=models.FloatField(null=True,blank=True)
     properties=models.ManyToManyField(property,related_name='properties', null=True,blank=True)
     statistics=models.ManyToManyField(statistic,related_name='statistics', null=True,blank=True)
-    WorkArtOffers=models.ManyToManyField(WorkArtOffer,related_name='WorkArtOffers', null=True,blank=True)
+    WorkArtOffers=models.ManyToManyField(workartoffer,related_name='WorkArtOffers', null=True,blank=True)
     #created_at = models.DateTimeField(auto_now_add=True)
 
     
@@ -68,4 +68,4 @@ class account(models.Model):
     collections=models.ManyToManyField(collection,verbose_name=_('members'),related_name='collections',null=True, blank=True)
     WalletInfo=models.CharField(max_length=500, primary_key=True)
     WorkArts=models.ManyToManyField(workart,verbose_name=_('accounts'),related_name='WorkArts',null=True, blank=True)
-    WorkArtOffers=models.ManyToManyField(WorkArtOffer,verbose_name=_('wfaccounts'),related_name='workartoffers',null=True, blank=True)
+    WorkArtOffers=models.ManyToManyField(workartoffer,verbose_name=_('wfaccounts'),related_name='workartoffers',null=True, blank=True)

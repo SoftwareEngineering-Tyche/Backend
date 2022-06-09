@@ -3,7 +3,7 @@ from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.response import Response
-from .models import account , collection, workart, statistic, property, WorkArtOffer
+from .models import account , collection, workart, statistic, property, workartoffer
 from .serializers import AccountSerializer, CollectionSerializer, WorkArtSerializer, PropertySerializer, StatisticSerializer, WorkArtOfferSerializer
 from rest_framework.parsers import MultiPartParser,FormParser
 import json
@@ -365,14 +365,14 @@ class WorkArtOffer(APIView):
         serializer=WorkArtOfferSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            workartofferid=WorkArtOffer.objects.get(id=serializer.data['id'])
+            workartofferid=workartoffer.objects.get(id=serializer.data['id'])
             workart.WorkArtOffers.add(workartofferid)
             accountid.WorkArtOffers.add(workartofferid)
             return Response(serializer.data,status.HTTP_200_OK)
         return Response(request.data, status=status.HTTP_400_BAD_REQUEST)   
     def get(self,request,pk):
         workartid=workart.objects.get(id=pk)
-        workartoffers=workartid.WorkArtOffers.all()
+        workartoffers=workartid.workartoffer.all()
         serializer=WorkArtOfferSerializer(data=workartoffers,many=True)
         return Response(serializer.data,status=status.HTTP_200_OK)
 

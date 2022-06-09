@@ -421,6 +421,7 @@ class  worrkartofferaccept(APIView):
         l=workarts.WorkArtOffers.all()
         if request.data["status"]=="accepted":
             workarts.offerstatus="NO"
+            workarts.save()
             workartid.status="accepted"
             for i in l:
                 if i.id != workarts.id:

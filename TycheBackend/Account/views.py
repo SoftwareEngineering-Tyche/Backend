@@ -385,16 +385,18 @@ class WorkArtOffer(APIView):
     def post(self,request,pk):
         accountid=account.objects.get(WalletInfo=request.data['From'])
         serializer=WorkArtOfferSerializer(data=request.data)
+        workartl=workart.objects.get(id=pk)
+        if workartl.offerstatus=="NO":
+            return Response("NO",status=status.HTTP_200_OK)
         if serializer.is_valid():
             serializer.save()
             workartofferid=workartoffer.objects.get(id=serializer.data['id'])
             mynow=timezone.now()
             k=gregorian_to_jalali(mynow.year,mynow.month,mynow.day) 
             now=datetime.now() 
-            now=datetime(k[0],k[1],k[2],mynow.hour,mynow.minute,0,0)
+            now=datetime(k[0],k[1],k[2],mynow.hour,mynow.minute)
             workartofferid.Date=now
             workartofferid.save()
-            workartl=workart.objects.get(id=pk)
             workartl.WorkArtOffers.add(workartofferid)
             accountid.WorkArtOffers.add(workartofferid)
             return Response(serializer.data,status.HTTP_200_OK)
@@ -418,6 +420,7 @@ class  worrkartofferaccept(APIView):
         workarts=workart.objects.get(id=p)
         l=workarts.WorkArtOffers.all()
         if request.data["status"]=="accepted":
+            workarts.offerstatus="NO"
             workartid.status="accepted"
             for i in l:
                 if i.id != workarts.id:

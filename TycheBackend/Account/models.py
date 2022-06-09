@@ -18,6 +18,7 @@ class workartoffer(models.Model):
     usdPrice=models.FloatField(null=True, blank=True)
     Date=models.DateTimeField(auto_now_add=True) 
     status=models.CharField(max_length=100,default="Pending",null=True, blank=True)
+    From=models.CharField(max_length=100,null=True, blank=True)
     
 class property(models.Model):
     subject=models.CharField(max_length=100,null=True,blank=True)

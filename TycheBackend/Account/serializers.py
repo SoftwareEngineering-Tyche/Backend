@@ -33,4 +33,4 @@ class StatisticSerializer(serializers.ModelSerializer):
 class WorkArtOfferSerializer(serializers.ModelSerializer):
     class Meta:
         model=workartoffer
-        fields=['id','Price','usdPrice','Date','status']
+        fields=['id','Price','usdPrice','Date','status','From']

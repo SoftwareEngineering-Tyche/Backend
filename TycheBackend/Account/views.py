@@ -386,13 +386,14 @@ class WorkArtOffer(APIView):
         accountid=account.objects.get(WalletInfo=request.data['From'])
         serializer=WorkArtOfferSerializer(data=request.data)
         if serializer.is_valid():
+            serializer.save()
+            workartofferid=workartoffer.objects.get(id=serializer.data['id'])
             mynow=timezone.now()
             k=gregorian_to_jalali(mynow.year,mynow.month,mynow.day) 
             now=datetime.now() 
             now=datetime(k[0],k[1],k[2],mynow.hour,mynow.minute,mynow.second,0)
-            serializer.data["Data"]=now
-            serializer.save()
-            workartofferid=workartoffer.objects.get(id=serializer.data['id'])
+            workartofferid.Date=now
+            workartofferid.save()
             workartl=workart.objects.get(id=pk)
             workartl.WorkArtOffers.add(workartofferid)
             accountid.WorkArtOffers.add(workartofferid)

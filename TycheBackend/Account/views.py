@@ -373,7 +373,7 @@ class WorkArtOffer(APIView):
         return Response(request.data, status=status.HTTP_400_BAD_REQUEST)   
     def get(self,request,pk):
         workartid=workart.objects.get(id=pk)
-        workartoffers=workartid.WorkArtOffers.all()
+        workartoffers=workartid.workartoffers.all()
         serializer=WorkArtOfferSerializer(workartoffers,many=True)
         return Response(serializer.data,status=status.HTTP_200_OK)
 

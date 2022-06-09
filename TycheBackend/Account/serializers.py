@@ -18,7 +18,7 @@ class AccountSerializer(serializers.ModelSerializer):
 class WorkArtSerializer(serializers.ModelSerializer):
     class Meta:
         model=workart
-        fields = ['id','Name','image','Externallink','Liked','Description','Supply','BlockChain','Price','collections','workartofferss']
+        fields = ['id','Name','image','Externallink','Liked','Description','Supply','BlockChain','Price','collections','WorkArtOffers']
 
 class PropertySerializer(serializers.ModelSerializer):
         class Meta:

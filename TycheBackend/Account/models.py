@@ -69,4 +69,4 @@ class account(models.Model):
     collections=models.ManyToManyField(collection,verbose_name=_('members'),related_name='collections',null=True, blank=True)
     WalletInfo=models.CharField(max_length=500, primary_key=True)
     WorkArts=models.ManyToManyField(workart,verbose_name=_('accounts'),related_name='WorkArts',null=True, blank=True)
-    workartofferss=models.ManyToManyField(workartoffer,verbose_name=_('wfaccounts'),related_name='workartofferss',null=True, blank=True)
+    WorkArtOffers=models.ManyToManyField(workartoffer,verbose_name=_('wfaccounts'),related_name='workartoffers',null=True, blank=True)

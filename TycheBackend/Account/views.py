@@ -366,13 +366,14 @@ class WorkArtOffer(APIView):
         if serializer.is_valid():
             serializer.save()
             workartofferid=workartoffer.objects.get(id=serializer.data['id'])
-            workart.WorkArtOffers.add(workartofferid)
+            workartl=workart.objects.get(id=pk)
+            workartl.WorkArtOffers.add(workartofferid)
             accountid.WorkArtOffers.add(workartofferid)
             return Response(serializer.data,status.HTTP_200_OK)
         return Response(request.data, status=status.HTTP_400_BAD_REQUEST)   
     def get(self,request,pk):
         workartid=workart.objects.get(id=pk)
-        workartoffers=workartid.workartoffer.all()
+        workartoffers=workartid.WorkArtOffers.all()
         serializer=WorkArtOfferSerializer(data=workartoffers,many=True)
         return Response(serializer.data,status=status.HTTP_200_OK)
 

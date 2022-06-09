@@ -41,7 +41,7 @@ class workart(models.Model):
     properties=models.ManyToManyField(property,related_name='properties', null=True,blank=True)
     statistics=models.ManyToManyField(statistic,related_name='statistics', null=True,blank=True)
     WorkArtOffers=models.ManyToManyField(WorkArtOffer,related_name='WorkArtOffers', null=True,blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)
+    #created_at = models.DateTimeField(auto_now_add=True)
 
     
 class collection(models.Model):

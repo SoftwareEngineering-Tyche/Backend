@@ -16,7 +16,7 @@ def upload_to(instance, filename):
 class workartoffer(models.Model):
     Price=models.FloatField(null=True, blank=True)
     usdPrice=models.FloatField(null=True, blank=True)
-    Date=models.DateTimeField(auto_now_add=True) 
+    Date=models.DateTimeField(null=True, blank=True) 
     status=models.CharField(max_length=100,default="Pending",null=True, blank=True)
     From=models.CharField(max_length=100,null=True, blank=True)
     

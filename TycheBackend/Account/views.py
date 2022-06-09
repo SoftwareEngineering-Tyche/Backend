@@ -391,7 +391,7 @@ class WorkArtOffer(APIView):
             mynow=timezone.now()
             k=gregorian_to_jalali(mynow.year,mynow.month,mynow.day) 
             now=datetime.now() 
-            now=datetime(k[0],k[1],k[2],mynow.hour,mynow.minute,mynow.second,0)
+            now=datetime(k[0],k[1],k[2],mynow.hour,mynow.minute,0,0)
             workartofferid.Date=now
             workartofferid.save()
             workartl=workart.objects.get(id=pk)
@@ -414,8 +414,16 @@ class accountworkarts(APIView):
 class  worrkartofferaccept(APIView):
     def post(self,request,pk):
         workartid=workartoffer.objects.get(id=pk)
+        p=request.data["workArtID"]
+        workarts=workart.objects.get(id=p)
+        l=workarts.WorkArtOffers.all()
         if request.data["status"]=="accepted":
             workartid.status="accepted"
+            for i in l:
+                if i.id != workarts.id:
+                    i.status="rejected"
+                    i.save()
+                    
         else:
             workartid.status="rejected"
         workartid.save()

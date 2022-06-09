@@ -413,12 +413,10 @@ class accountworkarts(APIView):
 class  worrkartofferaccept(APIView):
     def post(self,request,pk):
         workartid=workartoffer.objects.get(id=pk)
-        l=request.data["status"]
-        k=str(l)
-        if k=="accepted":
+        if request.data["status"]=="accepted":
             workartid.status="accepted"
         else:
             workartid.status="rejected"
         workartid.save()
-        return Response(workartid)
+        return Response("ok",status=status.HTTP_200_OK)
              

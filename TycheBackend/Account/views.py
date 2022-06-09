@@ -382,4 +382,14 @@ class accountworkarts(APIView):
         accountid=accountworkarts.objects.get(WalletInfo=pk)
         workartoffers=accountid.WorkArtOffers.all()
         serializer=WorkArtOfferSerializer(data=workartoffers,many=True)
-        return Response(serializer.data,status=status.HTTP_200_OK)        
+        return Response(serializer.data,status=status.HTTP_200_OK) 
+class  worrkartofferaccept(APIView):
+    def post(self,request,pk):
+        workartid=workartoffer.objects.get(id=pk)
+        if request.data["status"]=="accepted":
+            workartid.status="accepted"
+        else:
+            workartid.status="rejected"
+        workartid.save()
+        return Response(workartid)
+             

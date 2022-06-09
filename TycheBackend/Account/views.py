@@ -394,7 +394,7 @@ class WorkArtOffer(APIView):
             mynow=timezone.now()
             k=gregorian_to_jalali(mynow.year,mynow.month,mynow.day) 
             now=datetime.now() 
-            now=datetime(k[0],k[1],k[2],mynow.hour,mynow.minute)
+            now=datetime(k[0],k[1],k[2],mynow.hour,mynow.minute,mynow.second)
             workartofferid.Date=now
             workartofferid.save()
             workartl.WorkArtOffers.add(workartofferid)

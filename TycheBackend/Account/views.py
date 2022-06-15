@@ -120,7 +120,9 @@ class WorkArt(APIView):
         serializer=WorkArtSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            MyWorkArt=workart.objects.get(id=serializer.data['id'])           
+            MyWorkArt=workart.objects.get(id=serializer.data['id']) 
+            accountid=account.objects.get(WalletInfo=request.data['WalletInfo'])  
+            accountid.WorkArts.add(MyWorkArt)    
             query=collection.objects.get(id=pk)
             query.WorkArts.add(MyWorkArt)
             return Response(serializer.data, status=status.HTTP_201_CREATED)

@@ -437,7 +437,7 @@ class workartWalletInfo(APIView):
     def get(self, request,pk):
         workartid=workart.objects.get(id=pk)
         p={
-            'WalletInfo':workartid.accounts.all()
+            'WalletInfo':workartid.accounts.all()[0]
         }
         json_object=json.loads(p)
         return Response(data=json_object,status=status.HTTP_200_OK)

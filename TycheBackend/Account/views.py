@@ -416,7 +416,8 @@ class WorkArtOffer(APIView):
                 'WalletInfo':workartid.accounts.all()
             }
             l.append(p)
-        serializer=WorkArtOfferSerializer(data=l,many=True)
+        json_object =json.dumps(l)
+        serializer=WorkArtOfferSerializer(data=json_object,many=True)
         return Response(serializer.data,status=status.HTTP_200_OK)
 
 class accountworkarts(APIView):

@@ -404,6 +404,18 @@ class WorkArtOffer(APIView):
     def get(self,request,pk):
         workartid=workart.objects.get(id=pk)
         workartoffers=workartid.WorkArtOffers.all()
+        l=[]
+        for z in workartoffers:
+            p={
+                'id':z.id,
+                'Price':z.Price,
+                'usdPrice':z.usdPrice,
+                'Date':z.Date,
+                'status':z.status,
+                'From':z.From,
+                'WalletInfo':workartid.accounts.all()
+            }
+            l.append(p)
         serializer=WorkArtOfferSerializer(workartoffers,many=True)
         return Response(serializer.data,status=status.HTTP_200_OK)
 

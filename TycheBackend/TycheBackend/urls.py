@@ -55,6 +55,8 @@ urlpatterns = [
     path('WorkArtOffer/<str:pk>',views.WorkArtOffer.as_view()),
     path('accountworkarts/<str:pk>',views.WorkArtProperty.as_view()),
     path('worrkartofferaccept/<str:pk>',views.worrkartofferaccept.as_view()),
+    path('workartwalletinfo/<str:pk>',views.workartWalletInfo.as_view()),
+    #workartWalletInfo
     #WorkArtProperty
     #Accountfavorites
     path('search',views.Search.as_view()),

@@ -437,10 +437,7 @@ class workartWalletInfo(APIView):
     def get(self, request,pk):
         workartid=workart.objects.get(id=pk)
         l=workartid.accounts.all()
-        k
-        for o in l:
-            print(o.WalletInfo)
-            k=o
+        k=l[0].WalletInfo
         p={
             'WalletInfo':k.WalletInfo
         }

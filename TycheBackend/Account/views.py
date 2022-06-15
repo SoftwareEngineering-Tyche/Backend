@@ -441,7 +441,7 @@ class workartWalletInfo(APIView):
         l=workartid.accounts.all()
         k=l[0].WalletInfo
         p={
-            'WalletInfo':k.WalletInfo
+            'WalletInfo':k
         }
         json_object=json.loads(p)
         return Response(data=json_object,status=status.HTTP_200_OK)

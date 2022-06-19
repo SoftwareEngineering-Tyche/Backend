@@ -225,7 +225,7 @@ class Accountfavorites(APIView):
         serializer=WorkArtSerializer(query,many=True)
         return Response(serializer.data,status.HTTP_200_OK)
 class Search(APIView):
-    def get(self, req):
+    def post(self, req):
         data = req.data
         # check data
         if not validate_data(data, ['search']):
@@ -366,7 +366,8 @@ class FilterNFT(APIView):
 
         if not validate_data(data, ['price_l','price_h','blockchain']):
             return Response({'status':'failed', 'data':{}, 'message':f"required_data: {['price_l','price_h','blockchain']}"}, status=400)
-        NFTS=workart.objects.all().filter(Q(Price__lt=data['price_h']) , Q(Price__gt=data['price_l']),Q(BlockChain=data['blockchain'])).values()
+        NFTS=workart.objects.filter(Price__lt=data['price_h']  , Price__gt=data['price_l'] , BlockChain=data['blockchain']).values()
+        #NFTS=workart.objects.all()
         d=WorkArtSerializer(NFTS,many=True)
 
         return Response({'status':'success', 'data':d.data, 'message':''},status=200)

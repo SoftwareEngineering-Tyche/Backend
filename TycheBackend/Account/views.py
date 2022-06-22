@@ -249,7 +249,7 @@ class Accountfavorites(APIView):
         serializer=WorkArtSerializer(query,many=True)
         return Response(serializer.data,status.HTTP_200_OK)
 class Search(APIView):
-    def get(self, req):
+    def post(self, req):
         data = req.data
         # check data
         if not validate_data(data, ['search']):
@@ -274,13 +274,13 @@ class Search(APIView):
         collections=CollectionSerializer(res,many=True)
 
         #property
-        propertyfilter=(Q(keyId__contains=serachfield)| Q(value__contains=serachfield))
+        propertyfilter=(Q(subject__contains=serachfield)| Q(value__contains=serachfield))
         res=property.objects.complex_filter(propertyfilter)
         properties=PropertySerializer(res,many=True)
 
 
         #statistic
-        statisticfilter=(Q(keyId__contains=serachfield)| Q(value__contains=serachfield))
+        statisticfilter=(Q(subject__contains=serachfield)| Q(value__contains=serachfield))
         res=statistic.objects.complex_filter(statisticfilter)
         statistics=StatisticSerializer(res,many=True)
 
@@ -318,7 +318,7 @@ class Explore(APIView):
 
 
 class SortNFT(APIView):
-    def get(self, req):
+    def post(self, req):
         data = req.data
         # check data
 
@@ -354,7 +354,7 @@ class SortNFT(APIView):
 
 
 class Sortcollection(APIView):
-    def get(self, req):
+    def post(self, req):
         data = req.data
         # check data
 
@@ -441,3 +441,18 @@ class workartWalletInfo(APIView):
         l=workartid.accounts.all()
         k=l[0].WalletInfo
         return Response(k,status=status.HTTP_200_OK)
+class FilterNFT(APIView):
+    def post(self, req):
+        data = req.data
+        # check data
+
+        if not validate_data(data, ['price_l','price_h','blockchain']):
+            return Response({'status':'failed', 'data':{}, 'message':f"required_data: {['price_l','price_h','blockchain']}"}, status=400)
+        NFTS=workart.objects.filter(Price__lt=data['price_h']  , Price__gt=data['price_l'] , BlockChain=data['blockchain']).values()
+        #NFTS=workart.objects.all()
+        d=WorkArtSerializer(NFTS,many=True)
+
+        return Response({'status':'success', 'data':d.data, 'message':''},status=200)
+
+
+

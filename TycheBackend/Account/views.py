@@ -3,13 +3,35 @@ from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.response import Response
-from .models import account , collection, workart, statistic, property
-from .serializers import AccountSerializer, CollectionSerializer, WorkArtSerializer, PropertySerializer, StatisticSerializer
+from .models import account , collection, workart, statistic, property, workartoffer
+from .serializers import AccountSerializer, CollectionSerializer, WorkArtSerializer, PropertySerializer, StatisticSerializer, WorkArtOfferSerializer
 from rest_framework.parsers import MultiPartParser,FormParser
 import json
 from django.db.models import Q
+from django.utils import timezone
+from datetime import datetime
 # Create your views here.
-
+def gregorian_to_jalali(gy, gm, gd):
+ g_d_m = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334]
+ if (gm > 2):
+  gy2 = gy + 1
+ else:
+  gy2 = gy
+ days = 355666 + (365 * gy) + ((gy2 + 3) // 4) - ((gy2 + 99) // 100) + ((gy2 + 399) // 400) + gd + g_d_m[gm - 1]
+ jy = -1595 + (33 * (days // 12053))
+ days %= 12053
+ jy += 4 * (days // 1461)
+ days %= 1461
+ if (days > 365):
+  jy += (days - 1) // 365
+  days = (days - 1) % 365
+ if (days < 186):
+  jm = 1 + (days // 31)
+  jd = 1 + (days % 31)
+ else:
+  jm = 7 + ((days - 186) // 30)
+  jd = 1 + ((days - 186) % 30)
+ return [jy, jm, jd]
 
 def validate_data(data, required_data):
     for key in required_data:
@@ -98,7 +120,9 @@ class WorkArt(APIView):
         serializer=WorkArtSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            MyWorkArt=workart.objects.get(id=serializer.data['id'])           
+            MyWorkArt=workart.objects.get(id=serializer.data['id']) 
+            accountid=account.objects.get(WalletInfo=request.data['WalletInfo'])  
+            accountid.WorkArts.add(MyWorkArt)    
             query=collection.objects.get(id=pk)
             query.WorkArts.add(MyWorkArt)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
@@ -359,6 +383,64 @@ class Sortcollection(APIView):
         else :
             return Response({'status':'failed', 'data':{}, 'message':f"wrong sort kind "}, status=400)
 
+class WorkArtOffer(APIView):
+    def post(self,request,pk):
+        accountid=account.objects.get(WalletInfo=request.data['From'])
+        serializer=WorkArtOfferSerializer(data=request.data)
+        workartl=workart.objects.get(id=pk)
+        if workartl.offerstatus=="NO":
+            return Response("NO",status=status.HTTP_200_OK)
+        if serializer.is_valid():
+            serializer.save()
+            workartofferid=workartoffer.objects.get(id=serializer.data['id'])
+            mynow=timezone.now()
+            k=gregorian_to_jalali(mynow.year,mynow.month,mynow.day) 
+            now=datetime.now() 
+            now=datetime(k[0],k[1],k[2],mynow.hour,mynow.minute,mynow.second)
+            workartofferid.Date=now
+            workartofferid.save()
+            workartl.WorkArtOffers.add(workartofferid)
+            accountid.WorkArtOffers.add(workartofferid)
+            return Response(serializer.data,status.HTTP_200_OK)
+        return Response(request.data, status=status.HTTP_400_BAD_REQUEST)   
+    def get(self,request,pk):
+        workartid=workart.objects.get(id=pk)
+        workartoffers=workartid.WorkArtOffers.all()
+        serializer=WorkArtOfferSerializer(workartoffers,many=True)
+        return Response(serializer.data,status=status.HTTP_200_OK)
+
+class accountworkarts(APIView):
+    def get(self,request,pk):
+        accountid=accountworkarts.objects.get(WalletInfo=pk)
+        workartoffers=accountid.WorkArtOffers.all()
+        serializer=WorkArtOfferSerializer(data=workartoffers,many=True)
+        return Response(serializer.data,status=status.HTTP_200_OK) 
+class  worrkartofferaccept(APIView):
+    def post(self,request,pk):
+        workartid=workartoffer.objects.get(id=pk)
+        p=request.data["workArtID"]
+        workarts=workart.objects.get(id=p)
+        l=workarts.WorkArtOffers.all()
+        if request.data["status"]=="accepted":
+            workarts.offerstatus="NO"
+            workarts.save()
+            workartid.status="accepted"
+            for i in l:
+                if i.id != workarts.id:
+                    i.status="rejected"
+                    i.save()
+                    
+        else:
+            workartid.status="rejected"
+        workartid.save()
+        return Response("Ok",status=status.HTTP_200_OK)
+
+class workartWalletInfo(APIView):
+    def get(self, request,pk):
+        workartid=workart.objects.get(id=pk)
+        l=workartid.accounts.all()
+        k=l[0].WalletInfo
+        return Response(k,status=status.HTTP_200_OK)
 class FilterNFT(APIView):
     def post(self, req):
         data = req.data
@@ -371,5 +453,6 @@ class FilterNFT(APIView):
         d=WorkArtSerializer(NFTS,many=True)
 
         return Response({'status':'success', 'data':d.data, 'message':''},status=200)
+
 
 

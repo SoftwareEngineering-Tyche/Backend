@@ -10,6 +10,15 @@ import json
 from django.db.models import Q
 from django.utils import timezone
 from datetime import datetime
+import json
+
+from django.contrib.auth import get_user_model
+from django.db import models
+
+from asgiref.sync import async_to_sync
+from channels.layers import get_channel_layer
+
+User = get_user_model()
 # Create your views here.
 def gregorian_to_jalali(gy, gm, gd):
  g_d_m = [0, 31, 59, 90, 120, 151, 181, 212, 243, 273, 304, 334]
@@ -401,6 +410,15 @@ class WorkArtOffer(APIView):
             workartofferid.save()
             workartl.WorkArtOffers.add(workartofferid)
             accountid.WorkArtOffers.add(workartofferid)
+            data={'id':workartofferid.id,'date':str(timezone.now()),'From':request.data['From'],'Price' : workartofferid.Price }
+            channel_layer = get_channel_layer()
+            async_to_sync(channel_layer.group_send)(
+                'chat_test',  # group _ name
+                {
+                    'type': 'workoffer',
+                    'message': json.dumps(data)
+                }
+            )
             return Response(serializer.data,status.HTTP_200_OK)
         return Response(request.data, status=status.HTTP_400_BAD_REQUEST)   
     def get(self,request,pk):

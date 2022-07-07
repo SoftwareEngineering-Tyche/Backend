@@ -28,7 +28,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-
+REDIS_HOST = '127.0.0.1'
+REDIS_PORT = 6379
 # Application definition
 
 INSTALLED_APPS = [
@@ -79,7 +80,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'TycheBackend.wsgi.application'
 
 # Channels
-ASGI_APPLICATION = 'SCPS.asgi.application'
+ASGI_APPLICATION = 'TycheBackend.asgi.application'
 CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
@@ -147,4 +148,4 @@ MEDIA_URL = '/media/' # 'http://myhost:port/media/'
 
 
 CORS_ALLOW_ALL_ORIGINS = True # If this is used then `CORS_ALLOWED_ORIGINS` will not have any effect
-CORS_ALLOW_CREDENTIALS = True
+#CORS_ALLOW_CREDENTIALS = True

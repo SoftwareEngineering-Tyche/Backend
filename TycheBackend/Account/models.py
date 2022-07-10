@@ -14,6 +14,7 @@ def upload_to(instance, filename):
     milliseconds = now.microsecond // 1000
     return f"users/{instance.pk}/{now:%Y%m%d%H%M%S}{milliseconds}{extension}"
 class workartoffer(models.Model):
+    workartid=models.IntegerField(null=True,blank=True)
     Price=models.FloatField(null=True, blank=True)
     usdPrice=models.FloatField(null=True, blank=True)
     Date=models.DateTimeField(null=True, blank=True) 

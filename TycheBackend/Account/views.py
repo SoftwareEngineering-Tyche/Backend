@@ -407,6 +407,7 @@ class WorkArtOffer(APIView):
             now=datetime.now() 
             now=datetime(k[0],k[1],k[2],mynow.hour,mynow.minute,mynow.second)
             workartofferid.Date=now
+            workartofferid.workartid=pk
             workartofferid.save()
             workartl.WorkArtOffers.add(workartofferid)
             accountid.WorkArtOffers.add(workartofferid)
@@ -471,6 +472,35 @@ class FilterNFT(APIView):
         d=WorkArtSerializer(NFTS,many=True)
 
         return Response({'status':'success', 'data':d.data, 'message':''},status=200)
+ 
+class workartofferAccount(APIView):
+    def get(self, request,pk):
+        workartoffers=workartoffer.objects.filter(From==pk)
+        list=[]
+        for i in workartoffers:
+            list.append(workart.objects.get(id==i.workartid))
+        serializer=WorkArtSerializer(data=list,many=True)
+        return Response(serializer.data,status=status.HTTP_200_OK)
+
+class workartoffermyAccount(APIView):
+    def get(self, request,pk):
+        workarts=[]
+        query=account.objects.get(WalletInfo=pk)
+        l=query.collections.all()
+        for i in l:
+            o=i.WorkArts.all()
+            for z in o:
+                workarts.append(z)
+        list=[]
+        for i in workarts:
+            a=workartoffer.objects.filter(workartid==i.id).count
+            if a>0:
+                list.append(i)
+
+        serializer=WorkArtSerializer(data=list,many=True)
+        return Response(serializer.data,status=status.HTTP_200_OK)
+
+
 
 
 

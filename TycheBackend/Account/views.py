@@ -479,6 +479,7 @@ class workartofferAccount(APIView):
         list=[]
         for i in workartoffers:
             a=workart.objects.get(id=i.workartid)
+            a.Price=i.Price
             list.append(a)
         serializer=WorkArtSerializer(list,many=True)
         return Response(serializer.data,status=status.HTTP_200_OK)

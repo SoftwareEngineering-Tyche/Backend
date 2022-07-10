@@ -475,11 +475,11 @@ class FilterNFT(APIView):
  
 class workartofferAccount(APIView):
     def get(self, request,pk):
-        workartoffers=workartoffer.objects.filter(From==pk)
+        workartoffers=workartoffer.objects.filter(From=pk)
         list=[]
         for i in workartoffers:
-            list.append(workart.objects.get(id==i.workartid))
-        serializer=WorkArtSerializer(data=list,many=True)
+            list.append(workart.objects.get(id=i.workartid))
+        serializer=WorkArtSerializer(list,many=True)
         return Response(serializer.data,status=status.HTTP_200_OK)
 
 class workartoffermyAccount(APIView):
@@ -493,11 +493,11 @@ class workartoffermyAccount(APIView):
                 workarts.append(z)
         list=[]
         for i in workarts:
-            a=workartoffer.objects.filter(workartid==i.id).count
-            if a>0:
+            a=workartoffer.objects.filter(workartid=i.id).count
+            if a != 0:
                 list.append(i)
 
-        serializer=WorkArtSerializer(data=list,many=True)
+        serializer=WorkArtSerializer(list,many=True)
         return Response(serializer.data,status=status.HTTP_200_OK)
 
 

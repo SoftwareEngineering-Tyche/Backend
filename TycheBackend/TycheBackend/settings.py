@@ -26,9 +26,10 @@ SECRET_KEY = 'django-insecure-8zg-ef034zv$raw2n@00+r0mg9+ue716h!%#ecfv1mn9o_ua*t
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
-
+REDIS_HOST = '127.0.0.1'
+REDIS_PORT = 6379
 # Application definition
 
 INSTALLED_APPS = [
@@ -43,6 +44,7 @@ INSTALLED_APPS = [
     'rest_framework_swagger',
     'Account',
     'django.contrib.postgres',
+    'chat'
 ]
 
 MIDDLEWARE = [
@@ -77,6 +79,16 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'TycheBackend.wsgi.application'
 
+# Channels
+ASGI_APPLICATION = 'TycheBackend.asgi.application'
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels_redis.core.RedisChannelLayer',
+        'CONFIG': {
+            "hosts": [('127.0.0.1', 6379)],
+        },
+    },
+}
 
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
@@ -113,11 +125,11 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Tehran'
 
 USE_I18N = True
 
-USE_TZ = True
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)
@@ -136,4 +148,4 @@ MEDIA_URL = '/media/' # 'http://myhost:port/media/'
 
 
 CORS_ALLOW_ALL_ORIGINS = True # If this is used then `CORS_ALLOWED_ORIGINS` will not have any effect
-CORS_ALLOW_CREDENTIALS = True
+#CORS_ALLOW_CREDENTIALS = True

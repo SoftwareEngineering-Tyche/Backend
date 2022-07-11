@@ -13,8 +13,9 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+
 from django.contrib import admin
-from django.urls import path, re_path
+from django.urls import path, re_path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from rest_framework import permissions
@@ -44,15 +45,31 @@ urlpatterns = [
     path('WorkArtProperty/<str:pk>',views.WorkArtProperty.as_view()),
     path('WorkArtstatistic/<str:pk>',views.WorkArtstatistic.as_view()),
     path('WorkArtLike/<str:pk>',views.WorkArtLike.as_view()),
+    path('WorkArtLiked/<str:pk>',views.WorkArtLiked.as_view()),
     path('WorkArt/',views.WorkArt.as_view()),
     path('WorkArt/<str:pk>',views.WorkArt.as_view()),
     path('WorkArtCollection/<str:pk>',views.WorkArtCollection.as_view()),
+    path('WorkArtCollections/<str:pk>',views.collectionworkarts.as_view()),
+    path('AccountWorkarts/<str:pk>',views.AccountWorkarts.as_view()),
+    path('Accountfavorites/<str:pk>',views.Accountfavorites.as_view()),
+    path('WorkArtProperty/<str:pk>',views.WorkArtProperty.as_view()),
+    path('WorkArtOffer/<str:pk>',views.WorkArtOffer.as_view()),
+    path('accountworkarts/<str:pk>',views.WorkArtProperty.as_view()),
+    path('worrkartofferaccept/<str:pk>',views.worrkartofferaccept.as_view()),
+    path('workartwalletinfo/<str:pk>',views.workartWalletInfo.as_view()),
+    path('workartofferAccount/<str:pk>',views.workartofferAccount.as_view()),
+    path('workartoffermyAccount/<str:pk>',views.workartoffermyAccount.as_view()),
+    #workartoffermyAccount
+    #workartofferAccpunt
+    #workartWalletInfo
+    #WorkArtProperty
+    #Accountfavorites
     path('search',views.Search.as_view()),
     path('explore',views.Explore.as_view()),
     path('sortNFT',views.SortNFT.as_view()),
     path('sortCollection',views.Sortcollection.as_view()),
     path('filterNFT',views.FilterNFT.as_view()),
-
+    path('chat/', include('chat.urls', namespace='chat')),
 
 
 

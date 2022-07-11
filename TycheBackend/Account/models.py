@@ -7,19 +7,26 @@ from django.utils.translation import gettext_lazy as _
 from datetime import datetime
 import os
 
+
 def upload_to(instance, filename):
     now = timezone.now()
     base, extension = os.path.splitext(filename.lower())
     milliseconds = now.microsecond // 1000
     return f"users/{instance.pk}/{now:%Y%m%d%H%M%S}{milliseconds}{extension}"
+class workartoffer(models.Model):
+    workartid=models.IntegerField(null=True,blank=True)
+    Price=models.FloatField(null=True, blank=True)
+    usdPrice=models.FloatField(null=True, blank=True)
+    Date=models.DateTimeField(null=True, blank=True) 
+    From=models.CharField(max_length=100,null=True, blank=True) 
+    status=models.CharField(max_length=100,default="Pending",null=True, blank=True)   
 class property(models.Model):
-    keyId=models.CharField(max_length=100,null=True,blank=True)
+    subject=models.CharField(max_length=100,null=True,blank=True)
     value=models.CharField(max_length=100,null=True,blank=True)
 
 class statistic(models.Model):
-    keyId=models.CharField(max_length=100,null=True,blank=True)
+    subject=models.CharField(max_length=100,null=True,blank=True)
     value=models.IntegerField(default=0,null=True,blank=True)
-    
 
 # Create your models here.
     
@@ -35,7 +42,9 @@ class workart(models.Model):
     Price=models.FloatField(null=True,blank=True)
     properties=models.ManyToManyField(property,related_name='properties', null=True,blank=True)
     statistics=models.ManyToManyField(statistic,related_name='statistics', null=True,blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)
+    WorkArtOffers=models.ManyToManyField(workartoffer,related_name='WorkArtOffers', null=True,blank=True)
+    offerstatus=models.CharField(max_length=100,default='YES',null=True,blank=True)
+    #created_at = models.DateTimeField(auto_now_add=True)
 
     
 class collection(models.Model):
@@ -48,7 +57,7 @@ class collection(models.Model):
     category=models.CharField(max_length=200,null=True,blank=True)
     DisplayTheme=models.CharField(max_length=200,null=True,blank=True)
     WorkArts=models.ManyToManyField(workart,related_name='collections', verbose_name=_('WorkArts'),null=True,blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)
+    #created_at = models.DateTimeField(auto_now_add=True)
     Liked=models.IntegerField(default=0,null=True,blank=True)
 
 class account(models.Model):
@@ -61,5 +70,5 @@ class account(models.Model):
     favorites=models.ManyToManyField(workart,related_name='favorites', verbose_name=_('members'),null=True,blank=True)
     collections=models.ManyToManyField(collection,verbose_name=_('members'),related_name='collections',null=True, blank=True)
     WalletInfo=models.CharField(max_length=500, primary_key=True)
-    WorkArts=models.ManyToManyField(workart,verbose_name=_('accounts'),related_name='Workarts',null=True, blank=True)
-    
+    WorkArts=models.ManyToManyField(workart,verbose_name=_('accounts'),related_name='accounts',null=True, blank=True)
+    WorkArtOffers=models.ManyToManyField(workartoffer,verbose_name=_('wfaccounts'),related_name='workartoffers',null=True, blank=True)

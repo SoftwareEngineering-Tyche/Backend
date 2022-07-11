@@ -1,5 +1,8 @@
 from rest_framework import serializers
-from .models import account, collection, workart, property, statistic
+from .models import account, collection, workart, property, statistic, workartoffer
+from django.utils import timezone
+from datetime import datetime
+
 
 class CollectionSerializer(serializers.ModelSerializer):
     class Meta:
@@ -18,14 +21,20 @@ class AccountSerializer(serializers.ModelSerializer):
 class WorkArtSerializer(serializers.ModelSerializer):
     class Meta:
         model=workart
-        fields = ['id','Name','image','Externallink','Description','Supply','BlockChain','Price','collections']
+        fields = ['id','Name','image','Externallink','Liked','Description','Supply','BlockChain','Price','collections','WorkArtOffers']
 
 class PropertySerializer(serializers.ModelSerializer):
         class Meta:
             model=property
-            fields = ['keyId','value']
+            fields = ['subject','value']
 
 class StatisticSerializer(serializers.ModelSerializer):
     class Meta:
             model=statistic
-            fields = ['keyId','value']
+            fields = ['subject','value']
+
+class WorkArtOfferSerializer(serializers.ModelSerializer):
+    class Meta:
+        model=workartoffer
+        fields=['id','Price','usdPrice','Date','status','From','workartid']
+
